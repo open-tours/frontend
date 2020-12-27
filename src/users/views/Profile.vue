@@ -1,5 +1,5 @@
 <template>
-  <section class="section">
+  <section v-if="!loading" class="section">
     <h1 class="title">Your Profile</h1>
 
     <table class="table">

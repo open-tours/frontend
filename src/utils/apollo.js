@@ -1,19 +1,20 @@
 import {InMemoryCache} from 'apollo-cache-inmemory';
 import ApolloClient from 'apollo-client';
-import {ApolloLink, concat} from 'apollo-link';
+import {ApolloLink} from 'apollo-link';
+import {onError} from 'apollo-link-error';
 import {createHttpLink} from 'apollo-link-http';
 
 export const AUTH_TOKEN_KEY = 'auth-token';
-
-const httpEndpoint = createHttpLink({
-  uri: 'http://localhost:8080/api/v1/',
-});
 
 export function getAuthToken() {
   return localStorage.getItem(AUTH_TOKEN_KEY) || null;
 }
 
-const authMiddleware = new ApolloLink((operation, forward) => {
+const httpEndpointLink = createHttpLink({
+  uri: 'http://localhost:8080/api/v1/',
+});
+
+const authLink = new ApolloLink((operation, forward) => {
   // add the authorization to the headers
   operation.setContext({
     headers: {
@@ -23,10 +24,23 @@ const authMiddleware = new ApolloLink((operation, forward) => {
   return forward(operation);
 });
 
+const errorLink = onError(({networkError, graphQLErrors}) => {
+  if (graphQLErrors) {
+    graphQLErrors.map(({message, locations, path}) =>
+      console.log(
+        `!!! [GraphQL error]: Message: ${message}, Location: ${locations}, Path: ${path}`,
+      ),
+    );
+  }
+  if (networkError) console.log(`!!! [Network error]: ${networkError}`);
+});
+
 const cache = new InMemoryCache();
 
+const link = ApolloLink.from([errorLink, authLink, httpEndpointLink]);
+
 export const apolloClient = new ApolloClient({
-  link: concat(authMiddleware, httpEndpoint),
+  link: link,
   cache,
 });
 

@@ -5,7 +5,7 @@ import {DefaultApolloClient} from '@vue/apollo-composable';
 import {createApp} from 'vue';
 import App from './App.vue';
 import router from './router';
-import {apolloClient} from './apollo';
+import {apolloClient} from './utils/apollo';
 import store from './store';
 
 require('@/assets/main.scss');

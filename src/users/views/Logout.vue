@@ -1,5 +1,9 @@
+<template>
+  <div />
+</template>
+
 <script>
-import {onLogout} from '@/apollo';
+import {onLogout} from '@/utils/apollo';
 
 export default {
   mounted() {
