@@ -80,7 +80,7 @@
               <span class="icon is-small">
                 <font-awesome-icon icon="plus" />
               </span>
-              <span>Tour</span>
+              <span>Trip</span>
             </button>
           </div>
           <div v-if="!isAuthenticated" class="buttons">
