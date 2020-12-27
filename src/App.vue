@@ -1,9 +1,73 @@
 <template>
-  <div id="nav">
-    <router-link to="/">Home</router-link> |
-    <router-link to="/about">About</router-link>
-  </div>
+  <nav aria-label="main navigation" class="navbar" role="navigation">
+    <div class="navbar-brand">
+      <a class="navbar-item" href="https://bulma.io">
+        <img
+          height="28"
+          src="https://bulma.io/images/bulma-logo.png"
+          width="112"
+        />
+      </a>
+
+      <a
+        aria-expanded="false"
+        aria-label="menu"
+        class="navbar-burger"
+        data-target="navbarBasicExample"
+        role="button"
+      >
+        <span aria-hidden="true"></span>
+        <span aria-hidden="true"></span>
+        <span aria-hidden="true"></span>
+      </a>
+    </div>
+
+    <div id="navbarBasicExample" class="navbar-menu">
+      <div class="navbar-start">
+        <router-link :to="{name: 'Home'}" tag="a" class="navbar-item">
+          Home
+        </router-link>
+
+        <div class="navbar-item has-dropdown is-hoverable">
+          <a class="navbar-link">
+            More
+          </a>
+
+          <div class="navbar-dropdown">
+            <a class="navbar-item">
+              About
+            </a>
+            <a class="navbar-item">
+              Jobs
+            </a>
+            <a class="navbar-item">
+              Contact
+            </a>
+            <hr class="navbar-divider" />
+            <a class="navbar-item">
+              Report an issue
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <div class="navbar-end">
+        <div class="navbar-item">
+          <div class="buttons">
+            <a class="button is-primary">
+              <strong>Sign up</strong>
+            </a>
+            <router-link
+              :to="{name: 'userLogin'}"
+              tag="a"
+              class="button is-light"
+            >
+              <strong>Log in</strong>
+            </router-link>
+          </div>
+        </div>
+      </div>
+    </div>
+  </nav>
   <router-view />
 </template>
-
-<style lang="scss"></style>
