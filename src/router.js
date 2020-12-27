@@ -5,7 +5,7 @@ import users_routes from './users/router';
 let routes = [
   {
     path: '/',
-    name: 'Home',
+    name: 'home',
     component: Home,
   },
   {
@@ -19,9 +19,8 @@ let routes = [
   },
 ];
 
+// add users routes
 routes = [...routes, ...users_routes];
-
-console.log('>>>>>>>>>>>>>>>>>', routes);
 
 const router = createRouter({
   history: createWebHistory(process.env.BASE_URL),

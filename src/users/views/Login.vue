@@ -63,7 +63,7 @@
 </template>
 
 <script>
-import {AUTH_TOKEN_KEY} from '@/apollo';
+import {onLogin} from '@/apollo';
 import {useMutation} from '@vue/apollo-composable';
 import {ref} from 'vue';
 import tokenAuthMutation from '../graphql/tokenAuth.mutation.gql';
@@ -77,7 +77,7 @@ export default {
       tokenAuthMutation,
     );
     onDone(result => {
-      localStorage.setItem(AUTH_TOKEN_KEY, result.data.tokenAuth.token);
+      onLogin(result.data.tokenAuth.token);
     });
     onError(errors => {
       authErrors.value = errors.graphQLErrors;
@@ -88,9 +88,14 @@ export default {
   methods: {
     submitForm() {
       this.authErrors = [];
-      this.doTokenAuth(this.authData).catch(function(errors) {
-        console.info('>>>>>>>>>>>>>', errors);
-      });
+      this.doTokenAuth(this.authData)
+        .then(() => {
+          this.$root.isAuthenticated = true;
+          this.$router.push({name: 'userProfile'});
+        })
+        .catch(function(errors) {
+          console.info('>>>>>>>>>>>>>', errors);
+        });
     },
   },
 };

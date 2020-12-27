@@ -1,6 +1,36 @@
-export const AUTH_TOKEN_KEY = 'apollo-token';
+import {InMemoryCache} from 'apollo-cache-inmemory';
+import ApolloClient from 'apollo-client';
+import {ApolloLink, concat} from 'apollo-link';
+import {createHttpLink} from 'apollo-link-http';
 
-export async function onLogin(apolloClient, token) {
+export const AUTH_TOKEN_KEY = 'auth-token';
+
+const httpEndpoint = createHttpLink({
+  uri: 'http://localhost:8080/api/v1/',
+});
+
+export function getAuthToken() {
+  return localStorage.getItem(AUTH_TOKEN_KEY) || null;
+}
+
+const authMiddleware = new ApolloLink((operation, forward) => {
+  // add the authorization to the headers
+  operation.setContext({
+    headers: {
+      Authorization: `JWT ${getAuthToken()}`,
+    },
+  });
+  return forward(operation);
+});
+
+const cache = new InMemoryCache();
+
+export const apolloClient = new ApolloClient({
+  link: concat(authMiddleware, httpEndpoint),
+  cache,
+});
+
+export async function onLogin(token) {
   if (typeof localStorage !== 'undefined' && token) {
     localStorage.setItem(AUTH_TOKEN_KEY, token);
   }
@@ -12,7 +42,7 @@ export async function onLogin(apolloClient, token) {
   }
 }
 
-export async function onLogout(apolloClient) {
+export async function onLogout() {
   if (typeof localStorage !== 'undefined') {
     localStorage.removeItem(AUTH_TOKEN_KEY);
   }

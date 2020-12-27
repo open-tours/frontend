@@ -1,0 +1,43 @@
+<template>
+  <section class="section">
+    <h1 class="title">Your Profile</h1>
+
+    <table class="table">
+      <tbody>
+        <tr>
+          <td><strong>Email</strong></td>
+          <td>{{ profileData.email }}</td>
+        </tr>
+        <tr>
+          <td><strong>Last login</strong></td>
+          <td>{{ lastLogin }}</td>
+        </tr>
+        <tr>
+          <td><strong>Date joined</strong></td>
+          <td>{{ dateJoined }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+</template>
+<script>
+import {formatDate} from '@/utils/filters';
+import {useQuery, useResult} from '@vue/apollo-composable';
+import meQuery from '../graphql/me.query.gql';
+
+export default {
+  setup() {
+    const {result, loading, error} = useQuery(meQuery);
+    const profileData = useResult(result, null, data => data.me);
+    return {profileData, loading, error};
+  },
+  computed: {
+    lastLogin() {
+      return formatDate(this.profileData.lastLogin);
+    },
+    dateJoined() {
+      return formatDate(this.profileData.dateJoined);
+    },
+  },
+};
+</script>
