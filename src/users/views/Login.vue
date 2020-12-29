@@ -15,6 +15,7 @@
                   placeholder="Email address"
                   required
                   type="email"
+                  autocomplete="username"
                 />
                 <span class="icon is-small is-left">
                   <font-awesome-icon icon="envelope" />
@@ -29,6 +30,7 @@
                   placeholder="Password"
                   required
                   type="password"
+                  autocomplete="current-password"
                 />
                 <span class="icon is-small is-left">
                   <font-awesome-icon icon="lock" />
@@ -90,7 +92,7 @@ export default {
       this.authErrors = [];
       this.doTokenAuth(this.authData).then(() => {
         this.$root.isAuthenticated = true;
-        this.$router.push({name: 'userProfile'});
+        this.$router.push({name: 'usersMyProfile'});
       });
     },
   },

@@ -1,21 +1,15 @@
-import Login from './views/Login';
-import Logout from './views/Logout';
-import Profile from './views/Profile';
+import MyTrips from './views/MyTrips';
+import MyTripEdit from './views/MyTripEdit';
 
 export default [
   {
-    path: '/login',
-    name: 'userLogin',
-    component: Login,
+    path: '/my/trips',
+    name: 'tripsMyTrips',
+    component: MyTrips,
   },
   {
-    path: '/logout',
-    name: 'userLogout',
-    component: Logout,
-  },
-  {
-    path: '/profile',
-    name: 'userProfile',
-    component: Profile,
+    path: '/my/trip/:id',
+    name: 'tripsMyTrip',
+    component: MyTripEdit,
   },
 ];

@@ -1,5 +1,5 @@
 <template>
-  <section v-if="!loading" class="section">
+  <section v-if="Object.keys(profileData).length" class="section">
     <h1 class="title">Your Profile</h1>
 
     <table class="table">
@@ -21,22 +21,23 @@
   </section>
 </template>
 <script>
-import {formatDate} from '@/utils/filters';
+import {formatDateTime} from '@/utils/filters';
 import {useQuery, useResult} from '@vue/apollo-composable';
 import meQuery from '../graphql/me.query.gql';
 
 export default {
   setup() {
-    const {result, loading, error} = useQuery(meQuery);
-    const profileData = useResult(result, null, data => data.me);
-    return {profileData, loading, error};
+    const {result} = useQuery(meQuery);
+
+    const profileData = useResult(result, {}, d => d.me);
+    return {profileData};
   },
   computed: {
     lastLogin() {
-      return formatDate(this.profileData.lastLogin);
+      return formatDateTime(this.profileData.lastLogin);
     },
     dateJoined() {
-      return formatDate(this.profileData.dateJoined);
+      return formatDateTime(this.profileData.dateJoined);
     },
   },
 };

@@ -1,0 +1,11 @@
+query{
+  myTrips{
+    id
+    name
+    startDate
+    endDate
+    description
+    coverImage
+    created
+  }
+}

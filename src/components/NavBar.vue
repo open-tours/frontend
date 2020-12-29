@@ -36,20 +36,21 @@
         </router-link>
 
         <a class="navbar-item" @click="hideNavBarMenu">
-          Explore Tours
+          Explore Trips
         </a>
 
         <div
-          class="navbar-item has-dropdown is-hoverable"
+          v-if="isAuthenticated"
           @click="hideNavBarMenu"
+          class="navbar-item has-dropdown is-hoverable"
         >
-          <a v-if="isAuthenticated" class="navbar-link">
-            You
+          <a class="navbar-link">
+            My
           </a>
 
           <div class="navbar-dropdown">
             <router-link
-              :to="{name: 'userProfile'}"
+              :to="{name: 'usersMyProfile'}"
               class="navbar-item"
               tag="a"
               @click="hideNavBarMenu"
@@ -57,13 +58,18 @@
               Profile
             </router-link>
 
-            <a @click="hideNavBarMenu" class="navbar-item">
-              Your Tours
-            </a>
+            <router-link
+              :to="{name: 'tripsMyTrips'}"
+              class="navbar-item"
+              tag="a"
+              @click="hideNavBarMenu"
+            >
+              Trips
+            </router-link>
 
             <router-link
               @click="hideNavBarMenu"
-              :to="{name: 'userLogout'}"
+              :to="{name: 'usersLogout'}"
               class="navbar-item"
               tag="a"
             >
@@ -89,7 +95,7 @@
             </a>
 
             <router-link
-              :to="{name: 'userLogin'}"
+              :to="{name: 'usersLogin'}"
               class="button is-light"
               tag="a"
             >

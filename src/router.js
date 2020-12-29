@@ -1,6 +1,7 @@
 import {createRouter, createWebHistory} from 'vue-router';
 import Home from './views/Home';
 import users_routes from './users/router';
+import trips_routes from './trips/router';
 
 let routes = [
   {
@@ -20,7 +21,7 @@ let routes = [
 ];
 
 // add users routes
-routes = [...routes, ...users_routes];
+routes = [...routes, ...users_routes, ...trips_routes];
 
 const router = createRouter({
   history: createWebHistory(process.env.BASE_URL),

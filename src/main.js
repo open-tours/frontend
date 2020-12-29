@@ -7,8 +7,7 @@ import App from './App.vue';
 import router from './router';
 import {apolloClient} from './utils/apollo';
 import store from './store';
-
-require('@/assets/main.scss');
+import '@/assets/main.scss';
 
 // register icons
 library.add([faLock, faEnvelope, faPlus]);

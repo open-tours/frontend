@@ -5,17 +5,17 @@ import Profile from './views/Profile';
 export default [
   {
     path: '/login',
-    name: 'userLogin',
+    name: 'usersLogin',
     component: Login,
   },
   {
     path: '/logout',
-    name: 'userLogout',
+    name: 'usersLogout',
     component: Logout,
   },
   {
-    path: '/profile',
-    name: 'userProfile',
+    path: '/my/profile',
+    name: 'usersMyProfile',
     component: Profile,
   },
 ];
