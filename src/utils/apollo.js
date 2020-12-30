@@ -1,8 +1,8 @@
 import {InMemoryCache} from 'apollo-cache-inmemory';
 import ApolloClient from 'apollo-client';
+import {createUploadLink} from 'apollo-upload-client';
 import {ApolloLink} from 'apollo-link';
 import {onError} from 'apollo-link-error';
-import {createHttpLink} from 'apollo-link-http';
 
 export const AUTH_TOKEN_KEY = 'auth-token';
 
@@ -10,7 +10,8 @@ export function getAuthToken() {
   return localStorage.getItem(AUTH_TOKEN_KEY) || null;
 }
 
-const httpEndpointLink = createHttpLink({
+// http and upload Link
+const uploadLink = createUploadLink({
   uri: 'http://localhost:8080/api/v1/',
 });
 
@@ -37,7 +38,7 @@ const errorLink = onError(({networkError, graphQLErrors}) => {
 
 const cache = new InMemoryCache();
 
-const link = ApolloLink.from([errorLink, authLink, httpEndpointLink]);
+const link = ApolloLink.from([errorLink, authLink, uploadLink]);
 
 export const apolloClient = new ApolloClient({
   link: link,
