@@ -1,20 +1,20 @@
-mutation($file: Upload!){
-  gpxFileInfo(file: $file){
-    name
-    startDate
-    endDate
-    distanceKm
-    avgSpeedKmPerH
-		maxSpeedKmPerH
-    movingTime {
-      hours
-      minutes
+mutation($file: Upload!) {
+    gpxFileInfo(file: $file) {
+        name
+        startDate
+        endDate
+        distanceKm
+        avgSpeedKmPerH
+        maxSpeedKmPerH
+        movingTime {
+            hours
+            minutes
+        }
+        stoppedTime {
+            hours
+            minutes
+        }
+        uphillM
+        downhillM
     }
-    stoppedTime {
-      hours
-      minutes
-    }
-    uphillM
-    downhillM
-  }
 }

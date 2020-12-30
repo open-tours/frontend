@@ -1,0 +1,46 @@
+mutation(
+    $name: String!
+    $tripId: Int!
+    $startDate: Date!
+    $endDate: Date!
+    $avgSpeedKmPerH: Float
+    $distanceKm: Float
+    $downhillM: Float
+    $uphillM: Float
+    $maxSpeedKmPerH: Float
+    $movingTimeHours: Int
+    $movingTimeMinutes: Int
+    $stoppedTimeHours: Int
+    $stoppedTimeMinutes: Int
+) {
+    stageCreate(
+        name: $name
+        tripId: $tripId,
+        startDate: $startDate
+        endDate: $endDate
+        avgSpeedKmPerH: $avgSpeedKmPerH
+        distanceKm: $distanceKm
+        downhillM: $downhillM
+        uphillM: $uphillM
+        maxSpeedKmPerH: $maxSpeedKmPerH
+        movingTime: { hours: $movingTimeHours, minutes: $movingTimeMinutes }
+        stoppedTime: { hours: $stoppedTimeHours, minutes: $stoppedTimeMinutes }
+    ) {
+        name
+        startDate
+        endDate
+        distanceKm
+        movingTime {
+            hours
+            minutes
+        }
+        stoppedTime {
+            hours
+            minutes
+        }
+        maxSpeedKmPerH
+        avgSpeedKmPerH
+        uphillM
+        downhillM
+    }
+}

@@ -12,7 +12,7 @@
     </div>
   </section>
 
-  <div v-if="!addStageOpen">
+  <div v-if="!createStageOpen">
     <div class="columns">
       <div class="column">
         <section class="section">
@@ -36,7 +36,7 @@
               Stages
               <button
                 class="button is-small is-success is-pulled-right"
-                v-on:click="addStageOpen = true"
+                v-on:click="createStageOpen = true"
               >
                 <span class="icon is-small">
                   <font-awesome-icon icon="plus" />
@@ -57,7 +57,7 @@
     </div>
   </div>
 
-  <div v-if="addStageOpen">
+  <div v-if="createStageOpen">
     <div class="columns">
       <div class="column">
         <form class="box" @submit.prevent="submitForm">
@@ -65,7 +65,7 @@
             Add Stage
             <button
               class="button is-small is-danger is-pulled-right"
-              v-on:click="addStageOpen = close"
+              v-on:click="createStageOpen = close"
             >
               <span class="icon is-small">
                 <font-awesome-icon icon="window-close" />
@@ -234,7 +234,11 @@
           </div>
 
           <div class="field">
-            <button :disabled="addStageLoading" class="button is-success">
+            <button
+              @click="addStage"
+              :disabled="loadingstageCreate || loadingGPXFileUpload"
+              class="button is-success"
+            >
               Add
             </button>
           </div>
@@ -253,11 +257,12 @@ import {ref} from '@vue/reactivity';
 import {useRoute} from 'vue-router';
 import Map from '../components/Map';
 import gpxFileInfoMutation from '../graphql/gpxFileInfo.mutation.gql';
+import stageCreateMutation from '../graphql/stageCreate.mutation.gql';
 import tripQuery from '../graphql/trip.query.gql';
 
 export default {
   setup() {
-    const addStageOpen = ref(false);
+    const createStageOpen = ref(false);
     const stageData = ref({
       movingTime: {
         hours: null,
@@ -269,7 +274,6 @@ export default {
       },
     });
     const gpxFileName = ref('');
-    const addStageLoading = ref(false);
     const addStageErrors = ref([]);
     const route = useRoute();
 
@@ -278,27 +282,43 @@ export default {
     });
     const trip = useResult(result, {}, d => d.trip);
 
+    // GPX file upload
     const {
       mutate: doGPXFileUpload,
-      onDone,
-      onError,
+      onDone: onGPXFileUploadDone,
+      onError: onGPXFileUploadError,
       loading: loadingGPXFileUpload,
     } = useMutation(gpxFileInfoMutation);
-    onDone(result => {
+    onGPXFileUploadDone(result => {
       stageData.value = result.data.gpxFileInfo;
     });
-    onError(errors => {
+    onGPXFileUploadError(errors => {
+      addStageErrors.value = errors.graphQLErrors;
+    });
+
+    // add Stage
+    const {
+      mutate: doStageCreate,
+      onDone: onstageCreateMutationDone,
+      onError: onstageCreateMutationError,
+      loading: loadingstageCreate,
+    } = useMutation(stageCreateMutation);
+    onstageCreateMutationDone(result => {
+      stageData.value = result.data.gpxFileInfo;
+    });
+    onstageCreateMutationError(errors => {
       addStageErrors.value = errors.graphQLErrors;
     });
 
     return {
       trip,
       stageData,
-      addStageOpen,
+      createStageOpen,
       gpxFileName,
       doGPXFileUpload,
       loadingGPXFileUpload,
-      addStageLoading,
+      doStageCreate,
+      loadingstageCreate,
       addStageErrors,
     };
   },
@@ -323,6 +343,17 @@ export default {
       this.gpxFileName = event.target.files[0].name;
       const file = event.target.files[0];
       this.doGPXFileUpload({file}).then(() => {});
+    },
+    addStage() {
+      this.stageData.tripId = this.$route.params.id;
+
+      // make GQL inputs flat
+      this.stageData.movingTimeHours = this.stageData.movingTime.hours;
+      this.stageData.movingTimeMinutes = this.stageData.movingTime.minutes;
+      this.stageData.stoppedTimeHours = this.stageData.stoppedTime.hours;
+      this.stageData.stoppedTimeMinutes = this.stageData.stoppedTime.minutes;
+
+      this.doStageCreate(this.stageData).then(() => {});
     },
   },
 };
