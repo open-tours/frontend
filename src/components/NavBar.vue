@@ -1,12 +1,8 @@
 <template>
-  <nav aria-label="main navigation" class="navbar" role="navigation">
+  <nav aria-label="main navigation" class="navbar has-shadow" role="navigation">
     <div class="navbar-brand">
-      <a class="navbar-item" href="https://bulma.io" @click="hideNavBarMenu">
-        <img
-          height="28"
-          src="https://bulma.io/images/bulma-logo.png"
-          width="112"
-        />
+      <a class="navbar-item" href="/" @click="hideNavBarMenu">
+        <img height="28" src="../assets/logo.png" />
       </a>
 
       <a
@@ -36,7 +32,7 @@
         </router-link>
 
         <a class="navbar-item" @click="hideNavBarMenu">
-          Explore Trips
+          Explore Tours
         </a>
 
         <div
@@ -64,7 +60,7 @@
               tag="a"
               @click="hideNavBarMenu"
             >
-              Trips
+              Tours
             </router-link>
 
             <router-link
@@ -86,17 +82,17 @@
               <span class="icon is-small">
                 <font-awesome-icon icon="plus" />
               </span>
-              <span>Trip</span>
+              <span>Tour</span>
             </button>
           </div>
           <div v-if="!isAuthenticated" class="buttons">
-            <a class="button is-primary">
+            <a class="button">
               <strong>Sign up</strong>
             </a>
 
             <router-link
               :to="{name: 'usersLogin'}"
-              class="button is-light"
+              class="button is-success"
               tag="a"
             >
               <strong>Log in</strong>

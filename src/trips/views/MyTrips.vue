@@ -1,5 +1,5 @@
 <template>
-  <section v-if="!loading" class="section">
+  <section v-if="!loading && trips" class="section">
     <h1 class="title">Your Trips</h1>
 
     <table class="table">

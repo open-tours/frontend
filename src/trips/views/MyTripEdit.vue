@@ -31,11 +31,11 @@
 
       <div class="column">
         <section class="section">
-          <div class="panel is-dark">
+          <div class="panel">
             <p class="panel-heading">
               Stages
               <button
-                class="button is-small is-success is-pulled-right"
+                class="button is-small is-pulled-right"
                 v-on:click="createStageOpen = true"
               >
                 <span class="icon is-small">
@@ -90,10 +90,10 @@
             <div class="file has-name is-fullwidth">
               <label class="file-label">
                 <input
+                  @change="gpxFileChange"
                   class="file-input"
                   name="resume"
                   type="file"
-                  @change="gpxFileChange"
                 />
                 <span class="file-cta">
                   <span v-if="!loadingGPXFileUpload" class="file-icon">
@@ -107,7 +107,7 @@
                   </span>
                 </span>
                 <span class="file-name">
-                  {{ gpxFileName }}
+                  {{ gpxFile.name }}
                 </span>
               </label>
             </div>
@@ -245,7 +245,6 @@
         </form>
       </div>
       <div class="column"></div>
-      <div class="column"></div>
     </div>
   </div>
 </template>
@@ -273,7 +272,7 @@ export default {
         minutes: null,
       },
     });
-    const gpxFileName = ref('');
+    let gpxFile = ref({});
     const addStageErrors = ref([]);
     const route = useRoute();
 
@@ -314,7 +313,7 @@ export default {
       trip,
       stageData,
       createStageOpen,
-      gpxFileName,
+      gpxFile,
       doGPXFileUpload,
       loadingGPXFileUpload,
       doStageCreate,
@@ -340,12 +339,15 @@ export default {
         return;
       }
       this.addStageErrors = [];
-      this.gpxFileName = event.target.files[0].name;
-      const file = event.target.files[0];
-      this.doGPXFileUpload({file}).then(() => {});
+      this.gpxFile = event.target.files[0];
+      this.doGPXFileUpload({file: this.gpxFile}).then(() => {});
     },
     addStage() {
       this.stageData.tripId = this.$route.params.id;
+
+      if (this.gpxFile) {
+        this.stageData.gpxFile = this.gpxFile;
+      }
 
       // make GQL inputs flat
       this.stageData.movingTimeHours = this.stageData.movingTime.hours;
@@ -353,6 +355,7 @@ export default {
       this.stageData.stoppedTimeHours = this.stageData.stoppedTime.hours;
       this.stageData.stoppedTimeMinutes = this.stageData.stoppedTime.minutes;
 
+      // create
       this.doStageCreate(this.stageData).then(() => {});
     },
   },

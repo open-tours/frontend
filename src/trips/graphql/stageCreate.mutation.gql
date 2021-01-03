@@ -3,6 +3,7 @@ mutation(
     $tripId: Int!
     $startDate: Date!
     $endDate: Date!
+    $gpxFile: Upload
     $avgSpeedKmPerH: Float
     $distanceKm: Float
     $downhillM: Float
@@ -18,6 +19,7 @@ mutation(
         tripId: $tripId,
         startDate: $startDate
         endDate: $endDate
+        gpxFile: $gpxFile
         avgSpeedKmPerH: $avgSpeedKmPerH
         distanceKm: $distanceKm
         downhillM: $downhillM
