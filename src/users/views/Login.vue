@@ -65,18 +65,18 @@
 </template>
 
 <script>
-import {onLogin} from '@/utils/apollo';
-import {useMutation} from '@vue/apollo-composable';
-import {ref} from 'vue';
-import tokenAuthMutation from '../graphql/tokenAuth.mutation.gql';
+import { onLogin } from "@/utils/apollo";
+import { useMutation } from "@vue/apollo-composable";
+import { ref } from "vue";
+import tokenAuthMutation from "../graphql/tokenAuth.mutation.gql";
 
 export default {
   setup() {
     const authData = ref({});
     const authErrors = ref([]);
 
-    const {mutate: doTokenAuth, loading, onError, onDone} = useMutation(
-      tokenAuthMutation,
+    const { mutate: doTokenAuth, loading, onError, onDone } = useMutation(
+      tokenAuthMutation
     );
     onDone(result => {
       onLogin(result.data.tokenAuth.token);
@@ -85,16 +85,16 @@ export default {
       authErrors.value = errors.graphQLErrors;
     });
 
-    return {doTokenAuth, loading, authData, authErrors};
+    return { doTokenAuth, loading, authData, authErrors };
   },
   methods: {
     submitForm() {
       this.authErrors = [];
       this.doTokenAuth(this.authData).then(() => {
         this.$root.isAuthenticated = true;
-        this.$router.push({name: 'usersMyProfile'});
+        this.$router.push({ name: "usersMyProfile" });
       });
-    },
-  },
+    }
+  }
 };
 </script>

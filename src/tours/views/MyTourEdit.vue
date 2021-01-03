@@ -1,12 +1,12 @@
 <template>
-  <section v-if="Object.keys(trip).length" class="hero is-primary">
+  <section v-if="Object.keys(tour).length" class="hero is-primary">
     <div class="hero-body">
       <div class="container">
         <h1 class="title">
-          <h1 class="title">{{ trip.name }}</h1>
+          <h1 class="title">{{ tour.name }}</h1>
         </h1>
         <h2 class="subtitle">
-          {{ this.startEndDate }} - by {{ trip.owner.name }}
+          {{ this.startEndDate }} - by {{ tour.owner.name }}
         </h2>
       </div>
     </div>
@@ -19,11 +19,11 @@
           <div class="card">
             <div class="card-image">
               <figure class="image is-4by3">
-                <img alt="Placeholder image" v-bind:src="trip.coverImage" />
+                <img alt="Placeholder image" v-bind:src="tour.coverImage" />
               </figure>
             </div>
             <div class="card-content">
-              {{ trip.description }}
+              {{ tour.description }}
             </div>
           </div>
         </section>
@@ -250,14 +250,14 @@
 </template>
 
 <script>
-import {formatDate} from '@/utils/filters';
-import {useMutation, useQuery, useResult} from '@vue/apollo-composable';
-import {ref} from '@vue/reactivity';
-import {useRoute} from 'vue-router';
-import Map from '../components/Map';
-import gpxFileInfoMutation from '../graphql/gpxFileInfo.mutation.gql';
-import stageCreateMutation from '../graphql/stageCreate.mutation.gql';
-import tripQuery from '../graphql/trip.query.gql';
+import { formatDate } from "@/utils/filters";
+import { useMutation, useQuery, useResult } from "@vue/apollo-composable";
+import { ref } from "@vue/reactivity";
+import { useRoute } from "vue-router";
+import Map from "../components/Map";
+import gpxFileInfoMutation from "../graphql/gpxFileInfo.mutation.gql";
+import stageCreateMutation from "../graphql/stageCreate.mutation.gql";
+import tourQuery from "../graphql/tour.query.gql";
 
 export default {
   setup() {
@@ -265,28 +265,28 @@ export default {
     const stageData = ref({
       movingTime: {
         hours: null,
-        minutes: null,
+        minutes: null
       },
       stoppedTime: {
         hours: null,
-        minutes: null,
-      },
+        minutes: null
+      }
     });
     let gpxFile = ref({});
     const addStageErrors = ref([]);
     const route = useRoute();
 
-    const {result} = useQuery(tripQuery, {
-      id: route.params.id,
+    const { result } = useQuery(tourQuery, {
+      id: route.params.id
     });
-    const trip = useResult(result, {}, d => d.trip);
+    const tour = useResult(result, {}, d => d.tour);
 
     // GPX file upload
     const {
       mutate: doGPXFileUpload,
       onDone: onGPXFileUploadDone,
       onError: onGPXFileUploadError,
-      loading: loadingGPXFileUpload,
+      loading: loadingGPXFileUpload
     } = useMutation(gpxFileInfoMutation);
     onGPXFileUploadDone(result => {
       stageData.value = result.data.gpxFileInfo;
@@ -300,7 +300,7 @@ export default {
       mutate: doStageCreate,
       onDone: onstageCreateMutationDone,
       onError: onstageCreateMutationError,
-      loading: loadingstageCreate,
+      loading: loadingstageCreate
     } = useMutation(stageCreateMutation);
     onstageCreateMutationDone(result => {
       stageData.value = result.data.gpxFileInfo;
@@ -310,7 +310,7 @@ export default {
     });
 
     return {
-      trip,
+      tour,
       stageData,
       createStageOpen,
       gpxFile,
@@ -318,20 +318,20 @@ export default {
       loadingGPXFileUpload,
       doStageCreate,
       loadingstageCreate,
-      addStageErrors,
+      addStageErrors
     };
   },
   components: {
-    Map,
+    Map
   },
   computed: {
     startEndDate() {
-      let startEndDate = formatDate(this.trip.startDate);
-      if (this.trip.endDate) {
-        startEndDate += ` - ${formatDate(this.trip.endDate)}`;
+      let startEndDate = formatDate(this.tour.startDate);
+      if (this.tour.endDate) {
+        startEndDate += ` - ${formatDate(this.tour.endDate)}`;
       }
       return startEndDate;
-    },
+    }
   },
   methods: {
     gpxFileChange(event) {
@@ -340,10 +340,10 @@ export default {
       }
       this.addStageErrors = [];
       this.gpxFile = event.target.files[0];
-      this.doGPXFileUpload({file: this.gpxFile}).then(() => {});
+      this.doGPXFileUpload({ file: this.gpxFile }).then(() => {});
     },
     addStage() {
-      this.stageData.tripId = this.$route.params.id;
+      this.stageData.tourId = this.$route.params.id;
 
       if (this.gpxFile) {
         this.stageData.gpxFile = this.gpxFile;
@@ -357,7 +357,7 @@ export default {
 
       // create
       this.doStageCreate(this.stageData).then(() => {});
-    },
-  },
+    }
+  }
 };
 </script>

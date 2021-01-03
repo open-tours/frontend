@@ -1,6 +1,6 @@
 mutation(
     $name: String!
-    $tripId: Int!
+    $tourId: Int!
     $startDate: Date!
     $endDate: Date!
     $gpxFile: Upload
@@ -16,7 +16,7 @@ mutation(
 ) {
     stageCreate(
         name: $name
-        tripId: $tripId,
+        tourId: $tourId,
         startDate: $startDate
         endDate: $endDate
         gpxFile: $gpxFile

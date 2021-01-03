@@ -3,7 +3,7 @@
     <div class="container is-widescreen">
       <div class="notification is-primary">
         <div class="block">
-          <strong>Follow My Trip</strong> is a kind of Wikipedia for tours.
+          <strong>Follow My tour</strong> is a kind of Wikipedia for tours.
         </div>
         <div class="block">
           Log and Explore Tours.
@@ -23,6 +23,6 @@
 
 <script>
 export default {
-  name: 'Home',
+  name: "Home"
 };
 </script>

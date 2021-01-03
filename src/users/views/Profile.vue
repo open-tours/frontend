@@ -21,16 +21,16 @@
   </section>
 </template>
 <script>
-import {formatDateTime} from '@/utils/filters';
-import {useQuery, useResult} from '@vue/apollo-composable';
-import meQuery from '../graphql/me.query.gql';
+import { formatDateTime } from "@/utils/filters";
+import { useQuery, useResult } from "@vue/apollo-composable";
+import meQuery from "../graphql/me.query.gql";
 
 export default {
   setup() {
-    const {result} = useQuery(meQuery);
+    const { result } = useQuery(meQuery);
 
     const profileData = useResult(result, {}, d => d.me);
-    return {profileData};
+    return { profileData };
   },
   computed: {
     lastLogin() {
@@ -38,7 +38,7 @@ export default {
     },
     dateJoined() {
       return formatDateTime(this.profileData.dateJoined);
-    },
-  },
+    }
+  }
 };
 </script>

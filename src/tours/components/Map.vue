@@ -9,25 +9,25 @@
   </div>
 </template>
 <script>
-import {LGeoJson, LMap, LTileLayer} from '@vue-leaflet/vue-leaflet';
-import 'leaflet/dist/leaflet.css';
+import { LGeoJson, LMap, LTileLayer } from "@vue-leaflet/vue-leaflet";
+import "leaflet/dist/leaflet.css";
 
 export default {
   components: {
     LMap,
     LTileLayer,
-    LGeoJson,
+    LGeoJson
   },
   data() {
     return {
       zoom: 7,
       center: [48.12398, 9.984018],
-      geojson: null,
+      geojson: null
     };
   },
   created() {
     this.geojson = {
-      type: 'LineString',
+      type: "LineString",
       coordinates: [
         [11.552027, 48.12398],
         [11.549693, 48.124982],
@@ -290,8 +290,8 @@ export default {
         [9.986277, 49.326715],
         [9.979416, 49.340623],
         [9.980002, 49.344741],
-        [9.984018, 49.34777],
-      ],
+        [9.984018, 49.34777]
+      ]
     };
   },
   computed: {
@@ -300,7 +300,7 @@ export default {
     },
     iconSize() {
       return [this.iconWidth, this.iconHeight];
-    },
-  },
+    }
+  }
 };
 </script>

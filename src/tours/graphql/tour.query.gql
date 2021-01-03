@@ -1,5 +1,5 @@
 query ($id: Int!) {
-    trip(id: $id) {
+    tour(id: $id) {
         id
         name
         startDate

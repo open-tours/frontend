@@ -1,4 +1,4 @@
-# follow-my-trip
+# opentours
 
 ## Project setup
 ```

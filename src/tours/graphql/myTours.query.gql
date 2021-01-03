@@ -1,5 +1,5 @@
 query {
-    myTrips {
+    myTours {
         id
         name
         startDate

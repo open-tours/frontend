@@ -4,20 +4,20 @@
 </template>
 
 <script>
-import {getAuthToken} from '@/utils/apollo';
-import {ref} from 'vue';
-import NavBar from '@/components/NavBar';
+import { getAuthToken } from "@/utils/apollo";
+import { ref } from "vue";
+import NavBar from "@/components/NavBar";
 
 export default {
   components: {
-    NavBar,
+    NavBar
   },
   setup() {
     const isAuthenticated = ref(false);
-    return {isAuthenticated};
+    return { isAuthenticated };
   },
   mounted() {
     if (getAuthToken()) this.isAuthenticated = true;
-  },
+  }
 };
 </script>

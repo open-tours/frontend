@@ -11,7 +11,7 @@
         class="navbar-burger"
         data-target="navbarBasicExample"
         role="button"
-        v-bind:class="{'is-active': isNavBarMenuActive}"
+        v-bind:class="{ 'is-active': isNavBarMenuActive }"
         @click="toogleNavBarMenu"
       >
         <span aria-hidden="true"></span>
@@ -20,10 +20,10 @@
       </a>
     </div>
 
-    <div class="navbar-menu" v-bind:class="{'is-active': isNavBarMenuActive}">
+    <div class="navbar-menu" v-bind:class="{ 'is-active': isNavBarMenuActive }">
       <div class="navbar-start">
         <router-link
-          :to="{name: 'home'}"
+          :to="{ name: 'home' }"
           class="navbar-item"
           tag="a"
           @click="hideNavBarMenu"
@@ -46,7 +46,7 @@
 
           <div class="navbar-dropdown">
             <router-link
-              :to="{name: 'usersMyProfile'}"
+              :to="{ name: 'usersMyProfile' }"
               class="navbar-item"
               tag="a"
               @click="hideNavBarMenu"
@@ -55,7 +55,7 @@
             </router-link>
 
             <router-link
-              :to="{name: 'tripsMyTrips'}"
+              :to="{ name: 'toursMyTours' }"
               class="navbar-item"
               tag="a"
               @click="hideNavBarMenu"
@@ -65,7 +65,7 @@
 
             <router-link
               @click="hideNavBarMenu"
-              :to="{name: 'usersLogout'}"
+              :to="{ name: 'usersLogout' }"
               class="navbar-item"
               tag="a"
             >
@@ -91,7 +91,7 @@
             </a>
 
             <router-link
-              :to="{name: 'usersLogin'}"
+              :to="{ name: 'usersLogin' }"
               class="button is-success"
               tag="a"
             >
@@ -105,13 +105,13 @@
 </template>
 
 <script>
-import {ref} from 'vue';
+import { ref } from "vue";
 
 export default {
-  props: ['isAuthenticated'],
+  props: ["isAuthenticated"],
   setup() {
     const isNavBarMenuActive = ref(false);
-    return {isNavBarMenuActive};
+    return { isNavBarMenuActive };
   },
   methods: {
     toogleNavBarMenu() {
@@ -119,7 +119,7 @@ export default {
     },
     hideNavBarMenu() {
       this.isNavBarMenuActive = false;
-    },
-  },
+    }
+  }
 };
 </script>
