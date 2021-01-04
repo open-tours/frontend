@@ -1,70 +1,10 @@
 <template>
-  <section v-if="Object.keys(stage).length" class="hero is-primary is-small">
-    <div class="hero-body">
-      <div class="container">
-        <h1 class="title">
-          <h1 class="title">{{ stage.name }}</h1>
-        </h1>
-        <h2 class="subtitle">{{ startEndDate }} - by {{ stage.owner.name }}</h2>
-      </div>
-    </div>
-  </section>
-
-  <div v-if="!createStageOpen">
+  <div class="section">
     <div class="columns">
-      <div class="column">
-        <Map
-          v-bind:geojsonLayers="geojsonLayers"
-          style="width: 100%; height: 100%; min-height: 350px;"
-        ></Map>
-      </div>
-
-      <div class="column is-one-third">
-        <div class="panel">
-          <p class="panel-heading">
-            Stages
-            <button
-              class="button is-small is-pulled-right"
-              v-on:click="createStageOpen = true"
-            >
-              <span class="icon is-small">
-                <font-awesome-icon icon="plus" />
-              </span>
-            </button>
-          </p>
-          <a v-for="stage in stage.stages" :key="stage.id" class="panel-block">
-            {{ stage.name }}
-          </a>
-        </div>
-
-        <div class="card">
-          <div class="card-image">
-            <figure class="image is-4by3">
-              <img alt="Placeholder image" v-bind:src="stage.coverImage" />
-            </figure>
-          </div>
-          <div class="card-content">
-            {{ stage.description }}
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <div v-if="createStageOpen">
-    <div class="columns">
-      <div class="column">
+      <div class="column is-three-fifths">
         <form class="box" @submit.prevent="submitForm">
           <h1 class="title">
             Add Stage
-            <button
-              class="button is-small is-danger is-pulled-right"
-              v-on:click="createStageOpen = close"
-            >
-              <span class="icon is-small">
-                <font-awesome-icon icon="window-close" />
-              </span>
-            </button>
           </h1>
 
           <div class="field">
@@ -73,9 +13,12 @@
               (optional)</label
             >
 
-            <div v-if="stageCreateError.length" class="notification is-danger">
+            <div
+              v-if="gpxFileUploadErrors.length"
+              class="notification is-danger"
+            >
               <ul>
-                <li v-for="error in stageCreateError" :key="error">
+                <li v-for="error in gpxFileUploadErrors" :key="error">
                   {{ error.message }}
                 </li>
               </ul>
@@ -90,17 +33,17 @@
                   @change="gpxFileChange"
                 />
                 <span class="file-cta">
-                  <span v-if="!doingGPXFileUpload" class="file-icon">
+                  <span v-if="!processingGPXFileUpload" class="file-icon">
                     <font-awesome-icon icon="upload" />
                   </span>
-                  <span v-if="!doingGPXFileUpload" class="file-label">
+                  <span v-if="!processingGPXFileUpload" class="file-label">
                     Choose a file…
                   </span>
-                  <span v-if="doingGPXFileUpload">
+                  <span v-if="processingGPXFileUpload">
                     <font-awesome-icon icon="spinner" pulse />
                   </span>
                 </span>
-                <span class="file-name">
+                <span v-if="gpxFile" class="file-name">
                   {{ gpxFile.name }}
                 </span>
               </label>
@@ -239,36 +182,41 @@
           </div>
 
           <div class="field">
+            <div v-if="stageCreateErrors.length" class="notification is-danger">
+              <ul>
+                <li v-for="error in stageCreateErrors" :key="error">
+                  {{ error.message }}
+                </li>
+              </ul>
+            </div>
+
             <button
-              :disabled="doStageCreate || doingGPXFileUpload"
+              :disabled="processingStageCreate || processingGPXFileUpload"
               class="button is-success"
               @click="addStage"
             >
-              Add
+              <span v-if="processingStageCreate" class="icon">
+                <font-awesome-icon icon="spinner" pulse />
+              </span>
+              <span>Add</span>
             </button>
           </div>
         </form>
       </div>
-      <div class="column"></div>
     </div>
   </div>
 </template>
 
 <script>
-import { formatDate } from "@/utils/filters";
 import { useMutation, useQuery, useResult } from "@vue/apollo-composable";
 import { ref } from "@vue/reactivity";
-import axios from "axios";
 import { useRoute } from "vue-router";
-import Map from "../components/Map";
+import stageQuery from "../graphql/stage.query.gql";
 import gpxFileInfoMutation from "../graphql/gpxFileInfo.mutation.gql";
 import stageCreateMutation from "../graphql/stageCreate.mutation.gql";
-import tourQuery from "../graphql/stage.query.gql";
 
 export default {
   setup() {
-    const geojsonLayers = ref([]);
-    const createStageOpen = ref(false);
     const stageData = ref({
       movingTime: {
         hours: null,
@@ -280,31 +228,16 @@ export default {
       }
     });
     let gpxFile = ref({});
-    const stageCreateError = ref([]);
+    const gpxFileUploadErrors = ref([]);
+    const stageCreateErrors = ref([]);
     const route = useRoute();
 
-    const { result, onResult: onTourQueryResult } = useQuery(tourQuery, {
+    const { result } = useQuery(stageQuery, {
       id: route.params.id
     });
     const stage = useResult(result, {}, d => d.stage);
 
-    const getGeoJsonPreview = async () => {
-      const promises = [];
-      for (const stage of stage.value.stages) {
-        promises.push(axios.get(stage.geojsonPreview));
-      }
-      Promise.all(promises).then(function(results) {
-        for (const result of results) {
-          geojsonLayers.value.push(result.data);
-        }
-      });
-    };
-
-    onTourQueryResult(() => {
-      getGeoJsonPreview();
-    });
-
-    // GPX file upload
+    // gpx file upload
     const {
       mutate: doGPXFileUpload,
       onDone: onGPXFileUploadDone,
@@ -315,10 +248,10 @@ export default {
       stageData.value = result.data.gpxFileInfo;
     });
     onGPXFileUploadError(errors => {
-      stageCreateError.value = errors.graphQLErrors;
+      gpxFileUploadErrors.value = errors.graphQLErrors;
     });
 
-    // add Stage
+    // add stage mutation
     const {
       mutate: doStageCreate,
       onDone: onstageCreateMutationDone,
@@ -329,46 +262,31 @@ export default {
       stageData.value = result.data.gpxFileInfo;
     });
     onstageCreateMutationError(errors => {
-      stageCreateError.value = errors.graphQLErrors;
+      stageCreateErrors.value = errors.graphQLErrors;
     });
 
     return {
       stage,
       stageData,
-      geojsonLayers,
-      createStageOpen,
       gpxFile,
       doGPXFileUpload,
       processingGPXFileUpload,
+      gpxFileUploadErrors,
       doStageCreate,
       processingStageCreate,
-      stageCreateError
+      stageCreateErrors
     };
-  },
-  components: {
-    Map
-  },
-  computed: {
-    startEndDate() {
-      let startEndDate = formatDate(this.stage.startDate);
-      if (this.stage.endDate) {
-        startEndDate += ` - ${formatDate(this.stage.endDate)}`;
-      }
-      return startEndDate;
-    }
   },
   methods: {
     gpxFileChange(event) {
       if (!event.target.files.length) {
         return;
       }
-      this.stageCreateError = [];
+      this.gpxFileUploadErrors = [];
       this.gpxFile = event.target.files[0];
       this.doGPXFileUpload({ file: this.gpxFile }).then(() => {});
     },
     addStage() {
-      this.stageData.tourId = this.$route.params.id;
-
       if (this.gpxFile) {
         this.stageData.gpxFile = this.gpxFile;
       }
@@ -380,8 +298,9 @@ export default {
       this.stageData.stoppedTimeMinutes = this.stageData.stoppedTime.minutes;
 
       // create
+      this.stageCreateErrors = [];
       this.doStageCreate(this.stageData).then(() => {
-        this.createStageOpen = false;
+        this.$router.push({ name: "toursMyStages" });
       });
     }
   }

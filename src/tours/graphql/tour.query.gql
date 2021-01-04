@@ -1,5 +1,5 @@
-query ($id: Int!) {
-    tour(id: $id) {
+query($id: ID!) {
+    stage(id: $id) {
         id
         name
         startDate
@@ -9,6 +9,13 @@ query ($id: Int!) {
         owner {
             id
             name
+        }
+        stages {
+            id
+            name
+            startDate
+            endDate
+            geojsonPreview
         }
     }
 }

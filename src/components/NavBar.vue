@@ -60,7 +60,7 @@
               tag="a"
               @click="hideNavBarMenu"
             >
-              Tours
+              Tour Stages
             </router-link>
 
             <router-link
@@ -82,7 +82,7 @@
               <span class="icon is-small">
                 <font-awesome-icon icon="plus" />
               </span>
-              <span>Tour</span>
+              <span>Tour Stage</span>
             </button>
           </div>
           <div v-if="!isAuthenticated" class="buttons">

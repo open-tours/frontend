@@ -1,0 +1,29 @@
+query($id: ID!) {
+    stage(id: $id) {
+        id
+        created
+        owner {
+            id
+            name
+        }
+        name
+        description
+        startDate
+        endDate
+        coverImage
+        distanceKm
+        movingTime {
+            hours
+            minutes
+        }
+        stoppedTime {
+            hours
+            minutes
+        }
+        maxSpeedKmPerH
+        avgSpeedKmPerH
+        uphillM
+        downhillM
+        geojsonPreview
+    }
+}
