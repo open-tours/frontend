@@ -78,12 +78,16 @@
       <div class="navbar-end">
         <div class="navbar-item" @click="hideNavBarMenu">
           <div v-if="isAuthenticated" class="buttons">
-            <button class="button is-success">
+            <router-link
+              :to="{ name: 'toursMyStageAdd' }"
+              class="button is-success"
+              tag="a"
+            >
               <span class="icon is-small">
                 <font-awesome-icon icon="plus" />
               </span>
               <span>Tour Stage</span>
-            </button>
+            </router-link>
           </div>
           <div v-if="!isAuthenticated" class="buttons">
             <a class="button">

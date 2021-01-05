@@ -5,6 +5,15 @@
         <form class="box" @submit.prevent="submitForm">
           <h1 class="title">
             Add Stage
+            <router-link
+              :to="{ name: 'toursMyStages' }"
+              class="button is-small is-danger is-pulled-right"
+              tag="a"
+            >
+              <span class="icon is-small">
+                <font-awesome-icon icon="window-close" />
+              </span>
+            </router-link>
           </h1>
 
           <div class="field">
@@ -211,8 +220,8 @@
 import { useMutation, useQuery, useResult } from "@vue/apollo-composable";
 import { ref } from "@vue/reactivity";
 import { useRoute } from "vue-router";
-import stageQuery from "../graphql/stage.query.gql";
 import gpxFileInfoMutation from "../graphql/gpxFileInfo.mutation.gql";
+import stageQuery from "../graphql/stage.query.gql";
 import stageCreateMutation from "../graphql/stageCreate.mutation.gql";
 
 export default {

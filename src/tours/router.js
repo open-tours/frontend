@@ -20,6 +20,11 @@ export default [
     component: MyStages
   },
   {
+    path: "/my/stage/add/",
+    name: "toursMyStageAdd",
+    component: MyStageEdit
+  },
+  {
     path: "/my/stage/:id",
     name: "toursMyStage",
     component: MyStageEdit
