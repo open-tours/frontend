@@ -1,5 +1,5 @@
 query($id: ID!) {
-    stage(id: $id) {
+    track(id: $id) {
         id
         name
         startDate
@@ -10,7 +10,7 @@ query($id: ID!) {
             id
             name
         }
-        stages {
+        tracks {
             id
             name
             startDate

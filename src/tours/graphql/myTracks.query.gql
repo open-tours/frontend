@@ -1,11 +1,7 @@
-query($id: ID!) {
-    stage(id: $id) {
+query {
+    myTracks {
         id
         created
-        owner {
-            id
-            name
-        }
         name
         description
         startDate

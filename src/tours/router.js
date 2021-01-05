@@ -1,7 +1,7 @@
-import MyTours from "./views/MyStages";
+import MyTours from "./views/MyTracks";
 import MyTourEdit from "./views/MyTourEdit";
-import MyStages from "./views/MyStages";
-import MyStageEdit from "./views/MyStageEdit";
+import MyTracks from "./views/MyTracks";
+import MyTrackEdit from "./views/MyTrackEdit";
 
 export default [
   {
@@ -15,18 +15,18 @@ export default [
     component: MyTourEdit
   },
   {
-    path: "/my/stages",
-    name: "toursMyStages",
-    component: MyStages
+    path: "/my/tracks",
+    name: "toursMyTracks",
+    component: MyTracks
   },
   {
-    path: "/my/stage/add/",
-    name: "toursMyStageAdd",
-    component: MyStageEdit
+    path: "/my/track/add/",
+    name: "toursMyTrackAdd",
+    component: MyTrackEdit
   },
   {
-    path: "/my/stage/:id",
-    name: "toursMyStage",
-    component: MyStageEdit
+    path: "/my/track/:id",
+    name: "toursMyTrack",
+    component: MyTrackEdit
   }
 ];

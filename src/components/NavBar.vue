@@ -60,7 +60,7 @@
               tag="a"
               @click="hideNavBarMenu"
             >
-              Tour Stages
+              Tour Tracks
             </router-link>
 
             <router-link
@@ -79,14 +79,14 @@
         <div class="navbar-item" @click="hideNavBarMenu">
           <div v-if="isAuthenticated" class="buttons">
             <router-link
-              :to="{ name: 'toursMyStageAdd' }"
+              :to="{ name: 'toursMyTrackAdd' }"
               class="button is-success"
               tag="a"
             >
               <span class="icon is-small">
                 <font-awesome-icon icon="plus" />
               </span>
-              <span>Tour Stage</span>
+              <span>Track</span>
             </router-link>
           </div>
           <div v-if="!isAuthenticated" class="buttons">

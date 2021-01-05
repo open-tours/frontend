@@ -1,7 +1,11 @@
-query {
-    myStages {
+query($id: ID!) {
+    track(id: $id) {
         id
         created
+        owner {
+            id
+            name
+        }
         name
         description
         startDate

@@ -4,9 +4,9 @@
       <div class="column is-three-fifths">
         <form class="box" @submit.prevent="submitForm">
           <h1 class="title">
-            Add Stage
+            Add Track
             <router-link
-              :to="{ name: 'toursMyStages' }"
+              :to="{ name: 'toursMyTracks' }"
               class="button is-small is-danger is-pulled-right"
               tag="a"
             >
@@ -62,7 +62,7 @@
           <div class="field">
             <label class="label">Name</label>
             <div class="control">
-              <input v-model="stageData.name" class="input" type="text" />
+              <input v-model="trackData.name" class="input" type="text" />
             </div>
           </div>
 
@@ -70,7 +70,7 @@
             <label class="label">Description</label>
             <div class="control">
               <input
-                v-model="stageData.description"
+                v-model="trackData.description"
                 class="input"
                 type="text"
               />
@@ -80,14 +80,14 @@
           <div class="field">
             <label class="label">Start date</label>
             <div class="control">
-              <input v-model="stageData.startDate" class="input" type="text" />
+              <input v-model="trackData.startDate" class="input" type="text" />
             </div>
           </div>
 
           <div class="field">
             <label class="label">End date</label>
             <div class="control">
-              <input v-model="stageData.endDate" class="input" type="text" />
+              <input v-model="trackData.endDate" class="input" type="text" />
             </div>
           </div>
 
@@ -97,7 +97,7 @@
               <div class="column">
                 <div class="control">
                   <input
-                    v-model="stageData.movingTime.hours"
+                    v-model="trackData.movingTime.hours"
                     class="input"
                     type="text"
                   />
@@ -108,7 +108,7 @@
                 <div class="field">
                   <div class="control">
                     <input
-                      v-model="stageData.movingTime.minutes"
+                      v-model="trackData.movingTime.minutes"
                       class="input"
                       type="text"
                     />
@@ -125,7 +125,7 @@
               <div class="column">
                 <div class="control">
                   <input
-                    v-model="stageData.stoppedTime.hours"
+                    v-model="trackData.stoppedTime.hours"
                     class="input"
                     type="text"
                   />
@@ -136,7 +136,7 @@
                 <div class="field">
                   <div class="control">
                     <input
-                      v-model="stageData.stoppedTime.minutes"
+                      v-model="trackData.stoppedTime.minutes"
                       class="input"
                       type="text"
                     />
@@ -150,7 +150,7 @@
           <div class="field">
             <label class="label">Distance (km)</label>
             <div class="control">
-              <input v-model="stageData.distanceKm" class="input" type="text" />
+              <input v-model="trackData.distanceKm" class="input" type="text" />
             </div>
           </div>
 
@@ -158,7 +158,7 @@
             <label class="label">Average Speed (km/h)</label>
             <div class="control">
               <input
-                v-model="stageData.avgSpeedKmPerH"
+                v-model="trackData.avgSpeedKmPerH"
                 class="input"
                 type="text"
               />
@@ -169,7 +169,7 @@
             <label class="label">Maximum Speed (km/h)</label>
             <div class="control">
               <input
-                v-model="stageData.maxSpeedKmPerH"
+                v-model="trackData.maxSpeedKmPerH"
                 class="input"
                 type="text"
               />
@@ -179,32 +179,32 @@
           <div class="field">
             <label class="label">Uphill (m)</label>
             <div class="control">
-              <input v-model="stageData.uphillM" class="input" type="text" />
+              <input v-model="trackData.uphillM" class="input" type="text" />
             </div>
           </div>
 
           <div class="field">
             <label class="label">Downhill (m)</label>
             <div class="control">
-              <input v-model="stageData.downhillM" class="input" type="text" />
+              <input v-model="trackData.downhillM" class="input" type="text" />
             </div>
           </div>
 
           <div class="field">
-            <div v-if="stageCreateErrors.length" class="notification is-danger">
+            <div v-if="trackCreateErrors.length" class="notification is-danger">
               <ul>
-                <li v-for="error in stageCreateErrors" :key="error">
+                <li v-for="error in trackCreateErrors" :key="error">
                   {{ error.message }}
                 </li>
               </ul>
             </div>
 
             <button
-              :disabled="processingStageCreate || processingGPXFileUpload"
+              :disabled="processingTrackCreate || processingGPXFileUpload"
               class="button is-success"
-              @click="addStage"
+              @click="addTrack"
             >
-              <span v-if="processingStageCreate" class="icon">
+              <span v-if="processingTrackCreate" class="icon">
                 <font-awesome-icon icon="spinner" pulse />
               </span>
               <span>Add</span>
@@ -221,12 +221,12 @@ import { useMutation, useQuery, useResult } from "@vue/apollo-composable";
 import { ref } from "@vue/reactivity";
 import { useRoute } from "vue-router";
 import gpxFileInfoMutation from "../graphql/gpxFileInfo.mutation.gql";
-import stageQuery from "../graphql/stage.query.gql";
-import stageCreateMutation from "../graphql/stageCreate.mutation.gql";
+import trackQuery from "../graphql/track.query.gql";
+import trackCreateMutation from "../graphql/trackCreate.mutation.gql";
 
 export default {
   setup() {
-    const stageData = ref({
+    const trackData = ref({
       movingTime: {
         hours: null,
         minutes: null
@@ -238,13 +238,13 @@ export default {
     });
     let gpxFile = ref({});
     const gpxFileUploadErrors = ref([]);
-    const stageCreateErrors = ref([]);
+    const trackCreateErrors = ref([]);
     const route = useRoute();
 
-    const { result } = useQuery(stageQuery, {
+    const { result } = useQuery(trackQuery, {
       id: route.params.id
     });
-    const stage = useResult(result, {}, d => d.stage);
+    const track = useResult(result, {}, d => d.track);
 
     // gpx file upload
     const {
@@ -254,36 +254,36 @@ export default {
       loading: processingGPXFileUpload
     } = useMutation(gpxFileInfoMutation);
     onGPXFileUploadDone(result => {
-      stageData.value = result.data.gpxFileInfo;
+      trackData.value = result.data.gpxFileInfo;
     });
     onGPXFileUploadError(errors => {
       gpxFileUploadErrors.value = errors.graphQLErrors;
     });
 
-    // add stage mutation
+    // add track mutation
     const {
-      mutate: doStageCreate,
-      onDone: onstageCreateMutationDone,
-      onError: onstageCreateMutationError,
-      loading: processingStageCreate
-    } = useMutation(stageCreateMutation);
-    onstageCreateMutationDone(result => {
-      stageData.value = result.data.gpxFileInfo;
+      mutate: doTrackCreate,
+      onDone: ontrackCreateMutationDone,
+      onError: ontrackCreateMutationError,
+      loading: processingTrackCreate
+    } = useMutation(trackCreateMutation);
+    ontrackCreateMutationDone(result => {
+      trackData.value = result.data.gpxFileInfo;
     });
-    onstageCreateMutationError(errors => {
-      stageCreateErrors.value = errors.graphQLErrors;
+    ontrackCreateMutationError(errors => {
+      trackCreateErrors.value = errors.graphQLErrors;
     });
 
     return {
-      stage,
-      stageData,
+      track,
+      trackData,
       gpxFile,
       doGPXFileUpload,
       processingGPXFileUpload,
       gpxFileUploadErrors,
-      doStageCreate,
-      processingStageCreate,
-      stageCreateErrors
+      doTrackCreate,
+      processingTrackCreate,
+      trackCreateErrors
     };
   },
   methods: {
@@ -295,21 +295,21 @@ export default {
       this.gpxFile = event.target.files[0];
       this.doGPXFileUpload({ file: this.gpxFile }).then(() => {});
     },
-    addStage() {
+    addTrack() {
       if (this.gpxFile) {
-        this.stageData.gpxFile = this.gpxFile;
+        this.trackData.gpxFile = this.gpxFile;
       }
 
       // make GQL inputs flat
-      this.stageData.movingTimeHours = this.stageData.movingTime.hours;
-      this.stageData.movingTimeMinutes = this.stageData.movingTime.minutes;
-      this.stageData.stoppedTimeHours = this.stageData.stoppedTime.hours;
-      this.stageData.stoppedTimeMinutes = this.stageData.stoppedTime.minutes;
+      this.trackData.movingTimeHours = this.trackData.movingTime.hours;
+      this.trackData.movingTimeMinutes = this.trackData.movingTime.minutes;
+      this.trackData.stoppedTimeHours = this.trackData.stoppedTime.hours;
+      this.trackData.stoppedTimeMinutes = this.trackData.stoppedTime.minutes;
 
       // create
-      this.stageCreateErrors = [];
-      this.doStageCreate(this.stageData).then(() => {
-        this.$router.push({ name: "toursMyStages" });
+      this.trackCreateErrors = [];
+      this.doTrackCreate(this.trackData).then(() => {
+        this.$router.push({ name: "toursMyTracks" });
       });
     }
   }

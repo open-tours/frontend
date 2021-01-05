@@ -15,7 +15,7 @@ mutation(
     $stoppedTimeHours: Int
     $stoppedTimeMinutes: Int
 ) {
-    stageCreate(
+    trackCreate(
         name: $name,
         description: $description
         tourId: $tourId
