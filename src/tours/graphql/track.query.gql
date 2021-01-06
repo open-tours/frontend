@@ -10,7 +10,6 @@ query($id: ID!) {
         description
         startDate
         endDate
-        coverImage
         distanceKm
         movingTime {
             hours
@@ -24,6 +23,6 @@ query($id: ID!) {
         avgSpeedKmPerH
         uphillM
         downhillM
-        geojsonPreview
+        geojson
     }
 }

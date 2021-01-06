@@ -1,10 +1,11 @@
 mutation(
     $name: String!
-    $description: String,
+    $description: String
     $tourId: ID
     $startDate: Date!
     $endDate: Date!
     $gpxFile: Upload
+    $images: [Upload]
     $avgSpeedKmPerH: Float
     $distanceKm: Float
     $downhillM: Float
@@ -22,6 +23,7 @@ mutation(
         startDate: $startDate
         endDate: $endDate
         gpxFile: $gpxFile
+        images: $images
         avgSpeedKmPerH: $avgSpeedKmPerH
         distanceKm: $distanceKm
         downhillM: $downhillM

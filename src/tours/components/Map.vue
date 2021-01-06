@@ -9,7 +9,6 @@ import "leaflet.fullscreen/Control.FullScreen";
 import "leaflet.fullscreen/Control.FullScreen.css";
 
 export default {
-  name: "Map",
   setup() {},
   props: {
     geojsonLayers: Array

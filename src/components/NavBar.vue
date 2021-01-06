@@ -60,7 +60,7 @@
               tag="a"
               @click="hideNavBarMenu"
             >
-              Tour Tracks
+              Tracks
             </router-link>
 
             <router-link

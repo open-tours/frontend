@@ -288,10 +288,10 @@ export default {
     });
     const track = useResult(result, {}, d => d.track);
 
-    const getGeoJsonPreview = async () => {
+    const getgeojson = async () => {
       const promises = [];
       for (const track of track.value.tracks) {
-        promises.push(axios.get(track.geojsonPreview));
+        promises.push(axios.get(track.geojson));
       }
       Promise.all(promises).then(function(results) {
         for (const result of results) {
@@ -301,7 +301,7 @@ export default {
     };
 
     onTourQueryResult(() => {
-      getGeoJsonPreview();
+      getgeojson();
     });
 
     // GPX file upload

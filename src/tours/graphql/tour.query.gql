@@ -15,7 +15,7 @@ query($id: ID!) {
             name
             startDate
             endDate
-            geojsonPreview
+            geojson
         }
     }
 }

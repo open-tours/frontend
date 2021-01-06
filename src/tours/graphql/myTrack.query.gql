@@ -1,7 +1,11 @@
-query {
-    myTracks {
+query ($id: ID!) {
+    track(id: $id) {
         id
         created
+        owner {
+            id
+            name
+        }
         name
         description
         startDate
@@ -11,7 +15,7 @@ query {
             hours
             minutes
         }
-        stoppedTime {
+        stoppedTime{
             hours
             minutes
         }

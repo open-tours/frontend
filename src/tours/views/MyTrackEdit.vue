@@ -35,12 +35,7 @@
 
             <div class="file has-name is-fullwidth">
               <label class="file-label">
-                <input
-                  class="file-input"
-                  name="resume"
-                  type="file"
-                  @change="gpxFileChange"
-                />
+                <input class="file-input" type="file" accept="application/gpx+xml,application/xml" @change="gpxFileChange" />
                 <span class="file-cta">
                   <span v-if="!processingGPXFileUpload" class="file-icon">
                     <font-awesome-icon icon="upload" />
@@ -190,6 +185,8 @@
             </div>
           </div>
 
+          <TrackImageSelector ref="imageSelector" />
+
           <div class="field">
             <div v-if="trackCreateErrors.length" class="notification is-danger">
               <ul>
@@ -202,7 +199,7 @@
             <button
               :disabled="processingTrackCreate || processingGPXFileUpload"
               class="button is-success"
-              @click="addTrack"
+              @click="saveTrack"
             >
               <span v-if="processingTrackCreate" class="icon">
                 <font-awesome-icon icon="spinner" pulse />
@@ -223,8 +220,12 @@ import { useRoute } from "vue-router";
 import gpxFileInfoMutation from "../graphql/gpxFileInfo.mutation.gql";
 import trackQuery from "../graphql/track.query.gql";
 import trackCreateMutation from "../graphql/trackCreate.mutation.gql";
+import TrackImageSelector from "../components/TrackImageSelector";
 
 export default {
+  components: {
+    TrackImageSelector
+  },
   setup() {
     const trackData = ref({
       movingTime: {
@@ -295,9 +296,14 @@ export default {
       this.gpxFile = event.target.files[0];
       this.doGPXFileUpload({ file: this.gpxFile }).then(() => {});
     },
-    addTrack() {
+    saveTrack() {
+      // add files
       if (this.gpxFile) {
         this.trackData.gpxFile = this.gpxFile;
+      }
+      let images = this.$refs.imageSelector.images;
+      if (images.length) {
+        this.trackData.images = images;
       }
 
       // make GQL inputs flat
