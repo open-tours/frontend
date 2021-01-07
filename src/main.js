@@ -5,7 +5,8 @@ import {
   faPlus,
   faWindowClose,
   faUpload,
-  faSpinner
+  faSpinner,
+  faIdBadge
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 import { DefaultApolloClient } from "@vue/apollo-composable";
@@ -17,7 +18,15 @@ import store from "./store";
 import "@/assets/main.scss";
 
 // register icons
-library.add([faLock, faEnvelope, faPlus, faWindowClose, faUpload, faSpinner]);
+library.add([
+  faLock,
+  faEnvelope,
+  faPlus,
+  faWindowClose,
+  faUpload,
+  faSpinner,
+  faIdBadge
+]);
 
 createApp(App)
   .component("font-awesome-icon", FontAwesomeIcon)

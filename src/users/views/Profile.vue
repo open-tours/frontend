@@ -9,6 +9,10 @@
           <td>{{ profileData.email }}</td>
         </tr>
         <tr>
+          <td><strong>Name</strong></td>
+          <td>{{ profileData.name }}</td>
+        </tr>
+        <tr>
           <td><strong>Last login</strong></td>
           <td>{{ lastLogin }}</td>
         </tr>

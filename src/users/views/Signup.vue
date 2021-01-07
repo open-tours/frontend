@@ -5,12 +5,12 @@
         <div class="column is-5-tablet is-4-desktop is-3-widescreen">
           <form class="box" @submit.prevent="submitForm">
             <h1 class="title">
-              Login
+              Sign up
             </h1>
             <div class="field">
               <div class="control has-icons-left">
                 <input
-                  v-model="authData.email"
+                  v-model="signupData.email"
                   class="input"
                   placeholder="Email address"
                   required
@@ -25,7 +25,22 @@
             <div class="field">
               <div class="control has-icons-left">
                 <input
-                  v-model="authData.password"
+                  v-model="signupData.name"
+                  class="input"
+                  placeholder="Your name"
+                  required
+                  type="text"
+                  autocomplete="name"
+                />
+                <span class="icon is-small is-left">
+                  <font-awesome-icon icon="id-badge" />
+                </span>
+              </div>
+            </div>
+            <div class="field">
+              <div class="control has-icons-left">
+                <input
+                  v-model="signupData.password"
                   class="input"
                   placeholder="Password"
                   required
@@ -37,16 +52,10 @@
                 </span>
               </div>
             </div>
-            <div class="field">
-              <label class="checkbox">
-                <input type="checkbox" />
-                Remember me
-              </label>
-            </div>
 
-            <div v-if="authErrors.length" class="notification is-danger">
+            <div v-if="signupErrors.length" class="notification is-danger">
               <ul>
-                <li v-for="error in authErrors" :key="error">
+                <li v-for="error in signupErrors" :key="error">
                   {{ error.message }}
                 </li>
               </ul>
@@ -54,7 +63,7 @@
 
             <div class="field">
               <button :disabled="loading" class="button is-success">
-                Login
+                Create
               </button>
             </div>
           </form>
@@ -65,34 +74,31 @@
 </template>
 
 <script>
-import { onLogin } from "@/utils/apollo";
+import { onLogout } from "@/utils/apollo";
 import { useMutation } from "@vue/apollo-composable";
 import { ref } from "vue";
-import tokenAuthMutation from "../graphql/tokenAuth.mutation.gql";
+import creatUserMutation from "../graphql/createUser.mutation.gql";
 
 export default {
   setup() {
-    const authData = ref({});
-    const authErrors = ref([]);
+    const signupData = ref({});
+    const signupErrors = ref([]);
 
-    const { mutate: doTokenAuth, loading, onError, onDone } = useMutation(
-      tokenAuthMutation
+    const { mutate: doCreate, loading, onError } = useMutation(
+      creatUserMutation
     );
-    onDone(result => {
-      onLogin(result.data.tokenAuth.token);
-    });
     onError(errors => {
-      authErrors.value = errors.graphQLErrors;
+      signupErrors.value = errors.graphQLErrors;
     });
 
-    return { doTokenAuth, loading, authData, authErrors };
+    return { doCreate, loading, signupData, signupErrors };
   },
   methods: {
     submitForm() {
-      this.authErrors = [];
-      this.doTokenAuth(this.authData).then(() => {
-        this.$root.isAuthenticated = true;
-        this.$router.push({ name: "usersMyProfile" });
+      this.signupErrors = [];
+      this.doCreate(this.signupData).then(() => {
+        onLogout();
+        this.$router.push({ name: "usersLogin" });
       });
     }
   }

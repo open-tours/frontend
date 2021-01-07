@@ -90,9 +90,9 @@
             </router-link>
           </div>
           <div v-if="!isAuthenticated" class="buttons">
-            <a class="button">
+            <router-link :to="{ name: 'usersSignup' }" class="button" tag="a">
               <strong>Sign up</strong>
-            </a>
+            </router-link>
 
             <router-link
               :to="{ name: 'usersLogin' }"

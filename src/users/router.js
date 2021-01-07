@@ -1,8 +1,14 @@
+import Signup from "./views/Signup";
 import Login from "./views/Login";
 import Logout from "./views/Logout";
 import Profile from "./views/Profile";
 
 export default [
+  {
+    path: "/login",
+    name: "usersSignup",
+    component: Signup
+  },
   {
     path: "/login",
     name: "usersLogin",

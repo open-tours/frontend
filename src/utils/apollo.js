@@ -17,11 +17,13 @@ const uploadLink = createUploadLink({
 
 const authLink = new ApolloLink((operation, forward) => {
   // add the authorization to the headers
-  operation.setContext({
-    headers: {
-      Authorization: `JWT ${getAuthToken()}`
-    }
-  });
+  if (getAuthToken()) {
+    operation.setContext({
+      headers: {
+        Authorization: `JWT ${getAuthToken()}`
+      }
+    });
+  }
   return forward(operation);
 });
 
