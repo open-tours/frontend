@@ -20,7 +20,13 @@
 
     <div class="file has-name is-fullwidth">
       <label class="file-label">
-        <input class="file-input" type="file" multiple accept="image/jpeg,image/jpg" @change="fileChange" />
+        <input
+          class="file-input"
+          type="file"
+          multiple
+          accept="image/jpeg,image/jpg"
+          @change="fileChange"
+        />
         <span class="file-cta">
           <span v-if="!processingFileUpload" class="file-icon">
             <font-awesome-icon icon="upload" />

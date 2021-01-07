@@ -4,12 +4,45 @@
 
 <script>
 import L from "leaflet";
-import "leaflet/dist/leaflet.css";
 import "leaflet.fullscreen/Control.FullScreen";
 import "leaflet.fullscreen/Control.FullScreen.css";
+import "leaflet/dist/leaflet.css";
+import { onMounted, ref } from "vue";
 
 export default {
-  setup() {},
+  setup() {
+    const map = ref();
+    const mainLayerGroup = ref();
+
+    onMounted(() => {
+      delete L.Icon.Default.prototype._getIconUrl;
+
+      L.Icon.Default.mergeOptions({
+        iconRetinaUrl: require("leaflet/dist/images/marker-icon-2x.png"),
+        iconUrl: require("leaflet/dist/images/marker-icon.png"),
+        shadowUrl: require("leaflet/dist/images/marker-shadow.png")
+      });
+
+      map.value = L.map("map", {
+        renderer: L.canvas({ padding: 2.0 }),
+        fullscreenControl: {
+          pseudoFullscreen: false // if true, fullscreen to page width and height
+        }
+      });
+
+      mainLayerGroup.value = L.layerGroup().addTo(map.value);
+      L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+        attribution:
+          '&copy; <a href="http://www.openstreetmap.org/copyright" target="_blank"> OpenStreetMap</a> contributors, &copy;'
+      }).addTo(mainLayerGroup.value);
+      map.value.setView([0, 0], 3);
+    });
+
+    return {
+      map,
+      mainLayerGroup
+    };
+  },
   props: {
     geojsonLayers: Array
   },
@@ -23,36 +56,19 @@ export default {
           const geojsonlayer = L.geoJSON(layer);
           bounds.push(geojsonlayer.getBounds());
           geojsonlayer.addTo(this.mainLayerGroup);
-        }
-        this.map.flyToBounds(bounds, {
-          animate: true,
-          duration: 1.0,
-          easeLinearity: 0.1
-        });
-      }
-    }
-  },
-  mounted() {
-    this.initMap();
-  },
-  methods: {
-    initMap() {
-      L.Icon.Default.imagePath = ".";
-      // eslint-disable-next-line
-      delete L.Icon.Default.prototype._getIconUrl;
-      this.map = L.map("map", {
-        renderer: L.canvas({ padding: 2.0 }),
-        fullscreenControl: {
-          pseudoFullscreen: false // if true, fullscreen to page width and height
-        }
-      });
 
-      this.mainLayerGroup = L.layerGroup().addTo(this.map);
-      L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
-        attribution:
-          '&copy; <a href="http://www.openstreetmap.org/copyright" target="_blank"> OpenStreetMap</a> contributors, &copy;'
-      }).addTo(this.mainLayerGroup);
-      this.map.setView([0, 0], 3);
+          // add start / end markers
+          const coordinates = layer.coordinates;
+          L.marker([coordinates[0][1], coordinates[0][0]]).addTo(this.map);
+          L.marker([
+            coordinates[coordinates.length - 1][1],
+            coordinates[coordinates.length - 1][0]
+          ]).addTo(this.map);
+        }
+
+        // fly to layer
+        this.map.flyToBounds(bounds);
+      }
     }
   }
 };

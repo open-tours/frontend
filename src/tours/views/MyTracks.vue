@@ -12,7 +12,14 @@
       </thead>
       <tbody>
         <tr v-for="track in tracks" :key="track.id">
-          <td>{{ track.name }}</td>
+          <td>
+            <router-link
+              :to="{ name: 'toursTrack', params: { id: track.id } }"
+              tag="a"
+            >
+              {{ track.name }}
+            </router-link>
+          </td>
           <td>{{ track.startDate }}</td>
           <td>{{ track.endDate }}</td>
           <td>{{ track.created }}</td>

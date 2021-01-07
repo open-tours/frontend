@@ -1,5 +1,5 @@
 import MyTours from "./views/MyTracks";
-import MyTourEdit from "./views/MyTourEdit";
+import Track from "./views/Track";
 import MyTracks from "./views/MyTracks";
 import MyTrackEdit from "./views/MyTrackEdit";
 
@@ -10,9 +10,9 @@ export default [
     component: MyTours
   },
   {
-    path: "/my/tour/:id",
-    name: "toursMyTour",
-    component: MyTourEdit
+    path: "/track/:id",
+    name: "toursTrack",
+    component: Track
   },
   {
     path: "/my/tracks",

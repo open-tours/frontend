@@ -2,7 +2,7 @@
   <div class="section">
     <div class="columns">
       <div class="column is-three-fifths">
-        <form class="box" @submit.prevent="submitForm">
+        <form class="box">
           <h1 class="title">
             Add Track
             <router-link
@@ -35,7 +35,12 @@
 
             <div class="file has-name is-fullwidth">
               <label class="file-label">
-                <input class="file-input" type="file" accept="application/gpx+xml,application/xml" @change="gpxFileChange" />
+                <input
+                  class="file-input"
+                  type="file"
+                  accept="application/gpx+xml,application/xml"
+                  @change="gpxFileChange"
+                />
                 <span class="file-cta">
                   <span v-if="!processingGPXFileUpload" class="file-icon">
                     <font-awesome-icon icon="upload" />
@@ -199,7 +204,7 @@
             <button
               :disabled="processingTrackCreate || processingGPXFileUpload"
               class="button is-success"
-              @click="saveTrack"
+              @click.prevent="saveTrack"
             >
               <span v-if="processingTrackCreate" class="icon">
                 <font-awesome-icon icon="spinner" pulse />
@@ -214,11 +219,9 @@
 </template>
 
 <script>
-import { useMutation, useQuery, useResult } from "@vue/apollo-composable";
+import { useMutation } from "@vue/apollo-composable";
 import { ref } from "@vue/reactivity";
-import { useRoute } from "vue-router";
 import gpxFileInfoMutation from "../graphql/gpxFileInfo.mutation.gql";
-import trackQuery from "../graphql/track.query.gql";
 import trackCreateMutation from "../graphql/trackCreate.mutation.gql";
 import TrackImageSelector from "../components/TrackImageSelector";
 
@@ -240,12 +243,6 @@ export default {
     let gpxFile = ref({});
     const gpxFileUploadErrors = ref([]);
     const trackCreateErrors = ref([]);
-    const route = useRoute();
-
-    const { result } = useQuery(trackQuery, {
-      id: route.params.id
-    });
-    const track = useResult(result, {}, d => d.track);
 
     // gpx file upload
     const {
@@ -264,19 +261,14 @@ export default {
     // add track mutation
     const {
       mutate: doTrackCreate,
-      onDone: ontrackCreateMutationDone,
       onError: ontrackCreateMutationError,
       loading: processingTrackCreate
     } = useMutation(trackCreateMutation);
-    ontrackCreateMutationDone(result => {
-      trackData.value = result.data.gpxFileInfo;
-    });
     ontrackCreateMutationError(errors => {
       trackCreateErrors.value = errors.graphQLErrors;
     });
 
     return {
-      track,
       trackData,
       gpxFile,
       doGPXFileUpload,
