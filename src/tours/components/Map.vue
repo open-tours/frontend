@@ -66,7 +66,7 @@ export default {
           ]).addTo(this.map);
         }
 
-        // fly to layer
+        // fly to layer bounds
         this.map.flyToBounds(bounds);
       }
     }

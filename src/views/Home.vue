@@ -3,18 +3,7 @@
     <div class="container is-widescreen">
       <div class="notification is-primary">
         <div class="block">
-          <strong>Follow My track</strong> is a kind of Wikipedia for tracks.
-        </div>
-        <div class="block">
-          Log and Explore Tours.
-        </div>
-        <div class="block">
-          We don't lock you and your beautiful tracks in, as is the case with
-          other services.
-        </div>
-        <div class="block">
-          We are a non-profit organisation - we make your tracks available to
-          the general public, not just a selected circle.
+          <strong>OpenTours</strong>
         </div>
       </div>
     </div>

@@ -28,10 +28,27 @@
       >
         <figure class="image" @click="showNextImage">
           <img :src="track.previewImages[imageIndex].url" alt="Track photo" />
-          <figcaption class="caption has-text-right is-overlay">
+          <figcaption
+            class="caption has-text-right is-overlay"
+            style="top: auto;"
+          >
             <span class="tag is-info"
               >{{ imageIndex + 1 }} / {{ track.previewImages.length }}</span
             >
+          </figcaption>
+          <figcaption
+            v-if="track.previewImages[imageIndex].longitude"
+            class="caption is-overlay"
+            style="top: auto; cursor: pointer;"
+          >
+            <span class="tag is-info image-map-link">
+              <span
+                class="icon is-small"
+                @click="zoomToImageOnMap(imageIndex, $event)"
+              >
+                <font-awesome-icon icon="map-marked-alt" />
+              </span>
+            </span>
           </figcaption>
         </figure>
       </div>
@@ -88,14 +105,13 @@ export default {
           continue;
         }
 
-        var greenIcon = L.icon({
+        const icon = L.icon({
           iconUrl: image.url,
-
           iconSize: [64, -1], // size of the icon
           iconAnchor: [0, 80], // point of the icon which will correspond to marker's location
           popupAnchor: [-3, -76] // point from which the popup should open relative to the iconAnchor
         });
-        L.marker([image.latitude, image.longitude], { icon: greenIcon }).addTo(
+        L.marker([image.latitude, image.longitude], { icon: icon }).addTo(
           mapRef.value.map
         );
         L.marker([image.latitude, image.longitude]).addTo(mapRef.value.map);
@@ -123,6 +139,11 @@ export default {
       } else {
         this.imageIndex = newIndex;
       }
+    },
+    zoomToImageOnMap: function(index, event) {
+      event.stopPropagation();
+      const image = this.track.previewImages[index];
+      this.mapRef.map.flyTo([image.latitude, image.longitude], 14);
     }
   },
   mounted() {

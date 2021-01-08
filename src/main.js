@@ -6,7 +6,8 @@ import {
   faWindowClose,
   faUpload,
   faSpinner,
-  faIdBadge
+  faIdBadge,
+  faMapMarkedAlt
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 import { DefaultApolloClient } from "@vue/apollo-composable";
@@ -25,7 +26,8 @@ library.add([
   faWindowClose,
   faUpload,
   faSpinner,
-  faIdBadge
+  faIdBadge,
+  faMapMarkedAlt
 ]);
 
 createApp(App)
