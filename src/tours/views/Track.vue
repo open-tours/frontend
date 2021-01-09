@@ -21,13 +21,14 @@
       </div>
 
       <div
-        v-if="
-          track.photos && track.photos.length && activePhotoIndex > -1
-        "
+        v-if="track.photos && track.photos.length && activePhotoIndex > -1"
         class="column is-one-quarter"
       >
         <figure class="image" @click="showNextImage">
-          <img :src="track.photos[activePhotoIndex].previewUrl" alt="Track photo" />
+          <img
+            :src="track.photos[activePhotoIndex].previewUrl"
+            alt="Track photo"
+          />
           <figcaption
             class="caption has-text-right is-overlay"
             style="top: auto;"
@@ -145,12 +146,11 @@ export default {
           iconAnchor: [0, 80], // point of the icon which will correspond to marker's location
           popupAnchor: [-3, -76] // point from which the popup should open relative to the iconAnchor
         });
-        L.marker([image.latitude, image.longitude], { icon: icon }).addTo(
-          mapRef.value.map
-        ).on('click', function() {
-          activePhotoIndex.value = index;
-
-        });
+        L.marker([image.latitude, image.longitude], { icon: icon })
+          .addTo(mapRef.value.map)
+          .on("click", function() {
+            activePhotoIndex.value = index;
+          });
         L.marker([image.latitude, image.longitude]).addTo(mapRef.value.map);
       }
     });

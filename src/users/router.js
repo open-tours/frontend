@@ -5,7 +5,7 @@ import Profile from "./views/Profile";
 
 export default [
   {
-    path: "/login",
+    path: "/signup",
     name: "usersSignup",
     component: Signup
   },

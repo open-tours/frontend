@@ -12,7 +12,7 @@ export function getAuthToken() {
 
 // http and upload Link
 const uploadLink = createUploadLink({
-  uri: "http://localhost:8080/api/v1/"
+  uri: process.env.VUE_APP_API_URL
 });
 
 const authLink = new ApolloLink((operation, forward) => {
