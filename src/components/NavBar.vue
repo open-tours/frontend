@@ -11,7 +11,7 @@
         class="navbar-burger"
         data-target="navbarBasicExample"
         role="button"
-        v-bind:class="{ 'is-active': isNavBarMenuActive }"
+        :class="{ 'is-active': isNavBarMenuActive }"
         @click="toogleNavBarMenu"
       >
         <span aria-hidden="true"></span>
@@ -20,7 +20,7 @@
       </a>
     </div>
 
-    <div class="navbar-menu" v-bind:class="{ 'is-active': isNavBarMenuActive }">
+    <div class="navbar-menu" :class="{ 'is-active': isNavBarMenuActive }">
       <div class="navbar-start">
         <router-link
           :to="{ name: 'home' }"

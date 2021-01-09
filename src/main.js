@@ -7,7 +7,8 @@ import {
   faUpload,
   faSpinner,
   faIdBadge,
-  faMapMarkedAlt
+  faMapMarkedAlt,
+  faSearchPlus
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 import { DefaultApolloClient } from "@vue/apollo-composable";
@@ -27,7 +28,8 @@ library.add([
   faUpload,
   faSpinner,
   faIdBadge,
-  faMapMarkedAlt
+  faMapMarkedAlt,
+  faSearchPlus
 ]);
 
 createApp(App)

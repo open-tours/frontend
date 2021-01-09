@@ -16,7 +16,7 @@
         <Map
           ref="mapRef"
           style="width: 100%; height: 100%; min-height: 350px;"
-          v-bind:geojsonLayers="geojsonLayers"
+          :geojsonLayers="geojsonLayers"
         ></Map>
       </div>
 
@@ -37,11 +37,21 @@
             >
           </figcaption>
           <figcaption
-            v-if="track.previewImages[imageIndex].longitude"
             class="caption is-overlay"
             style="top: auto; cursor: pointer;"
           >
-            <span class="tag is-info image-map-link">
+            <span
+              v-if="track.previewImages[imageIndex].longitude"
+              class="tag is-info"
+            >
+              <span class="icon is-small" @click="openImageOverlay">
+                <font-awesome-icon icon="search-plus" />
+              </span>
+            </span>
+            <span
+              v-if="track.previewImages[imageIndex].longitude"
+              class="tag is-info"
+            >
               <span
                 class="icon is-small"
                 @click="zoomToImageOnMap(imageIndex, $event)"
@@ -53,6 +63,29 @@
         </figure>
       </div>
     </div>
+  </div>
+
+  <div
+    v-if="imageOverlayActive"
+    @keydown.esc="closeImageOverlay"
+    class="modal"
+    :class="{ 'is-active': imageOverlayActive }"
+    tabindex="0"
+  >
+    <div class="modal-background"></div>
+    <div class="modal-content">
+      <p class="image">
+        <img
+          @click="showNextImage"
+          :src="track.previewImages[imageIndex].url"
+        />
+      </p>
+    </div>
+    <button
+      @click="closeImageOverlay"
+      class="modal-close is-large"
+      aria-label="close"
+    ></button>
   </div>
 </template>
 
@@ -71,6 +104,7 @@ export default {
   setup() {
     const geojsonLayers = ref([]);
     const imageIndex = ref(-1);
+    const imageOverlayActive = ref(false);
     const mapRef = ref(null);
     const trackData = ref({
       movingTime: {
@@ -123,7 +157,8 @@ export default {
       trackData,
       geojsonLayers,
       imageIndex,
-      mapRef
+      mapRef,
+      imageOverlayActive
     };
   },
   components: {
@@ -144,6 +179,12 @@ export default {
       event.stopPropagation();
       const image = this.track.previewImages[index];
       this.mapRef.map.flyTo([image.latitude, image.longitude], 14);
+    },
+    openImageOverlay: function() {
+      this.imageOverlayActive = true;
+    },
+    closeImageOverlay: function() {
+      this.imageOverlayActive = false;
     }
   },
   mounted() {

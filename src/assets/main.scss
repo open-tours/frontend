@@ -29,6 +29,8 @@ $panel-tab-border-bottom: 1px solid;
 
 $text-strong: $grey-dark;
 
+$modal-z: 2000;
+
 // import only what you need from bulma
 @import "~bulma/sass/utilities/_all.sass";
 @import "~bulma/sass/base/_all.sass";
@@ -44,8 +46,7 @@ $text-strong: $grey-dark;
 @import "~bulma/sass/elements/icon.sass";
 @import "~bulma/sass/elements/notification.sass";
 @import "~bulma/sass/components/navbar.sass";
-@import "~bulma/sass/components/panel.sass";
+@import "~bulma/sass/components/modal.sass";
 @import "~bulma/sass/layout/hero.sass";
 @import "~bulma/sass/layout/section.sass";
 @import "~bulma/sass/helpers/_all.sass";
-

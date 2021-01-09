@@ -1,5 +1,5 @@
 <template>
-  <NavBar v-bind:isAuthenticated="isAuthenticated" />
+  <NavBar :isAuthenticated="isAuthenticated" />
   <router-view />
 </template>
 
