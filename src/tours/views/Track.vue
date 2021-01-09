@@ -180,7 +180,8 @@ export default {
       const image = this.track.previewImages[index];
       this.mapRef.map.flyTo([image.latitude, image.longitude], 14);
     },
-    openImageOverlay: function() {
+    openImageOverlay: function(event) {
+      event.stopPropagation();
       this.imageOverlayActive = true;
     },
     closeImageOverlay: function() {
