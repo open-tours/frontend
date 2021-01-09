@@ -24,10 +24,12 @@ query($id: ID!) {
         uphillM
         downhillM
         geojson
-        previewImages {
-            url
-            longitude
-            latitude
+        photos {
+          url
+          previewUrl
+          iconUrl
+          longitude
+          latitude
         }
     }
 }

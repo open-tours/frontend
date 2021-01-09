@@ -5,7 +5,7 @@ mutation(
     $startDate: Date!
     $endDate: Date!
     $gpxFile: Upload
-    $images: [Upload]
+    $photos: [Upload]
     $avgSpeedKmPerH: Float
     $distanceKm: Float
     $downhillM: Float
@@ -23,7 +23,7 @@ mutation(
         startDate: $startDate
         endDate: $endDate
         gpxFile: $gpxFile
-        images: $images
+        photos: $photos
         avgSpeedKmPerH: $avgSpeedKmPerH
         distanceKm: $distanceKm
         downhillM: $downhillM
@@ -32,21 +32,6 @@ mutation(
         movingTime: { hours: $movingTimeHours, minutes: $movingTimeMinutes }
         stoppedTime: { hours: $stoppedTimeHours, minutes: $stoppedTimeMinutes }
     ) {
-        name
-        startDate
-        endDate
-        distanceKm
-        movingTime {
-            hours
-            minutes
-        }
-        stoppedTime {
-            hours
-            minutes
-        }
-        maxSpeedKmPerH
-        avgSpeedKmPerH
-        uphillM
-        downhillM
+        id
     }
 }

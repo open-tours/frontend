@@ -190,7 +190,7 @@
             </div>
           </div>
 
-          <TrackImageSelector ref="imageSelector" />
+          <PhotoSelector ref="photoSelector" />
 
           <div class="field">
             <div v-if="trackCreateErrors.length" class="notification is-danger">
@@ -223,11 +223,11 @@ import { useMutation } from "@vue/apollo-composable";
 import { ref } from "@vue/reactivity";
 import gpxFileInfoMutation from "../graphql/gpxFileInfo.mutation.gql";
 import trackCreateMutation from "../graphql/trackCreate.mutation.gql";
-import TrackImageSelector from "../components/TrackImageSelector";
+import PhotoSelector from "../components/PhotoSelector";
 
 export default {
   components: {
-    TrackImageSelector
+    PhotoSelector
   },
   setup() {
     const trackData = ref({
@@ -293,9 +293,9 @@ export default {
       if (this.gpxFile) {
         this.trackData.gpxFile = this.gpxFile;
       }
-      let images = this.$refs.imageSelector.images;
-      if (images.length) {
-        this.trackData.images = images;
+      let photos = this.$refs.photoSelector.photos;
+      if (photos.length) {
+        this.trackData.photos = photos;
       }
 
       // make GQL inputs flat
