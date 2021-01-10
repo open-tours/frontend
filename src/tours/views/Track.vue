@@ -41,10 +41,7 @@
             class="caption is-overlay"
             style="top: auto; cursor: pointer;"
           >
-            <span
-              v-if="track.photos[activePhotoIndex].longitude"
-              class="tag is-info"
-            >
+            <span class="tag is-info">
               <span class="icon is-small" @click="openImageOverlay">
                 <font-awesome-icon icon="search-plus" />
               </span>
