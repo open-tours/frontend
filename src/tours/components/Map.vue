@@ -4,8 +4,8 @@
 
 <script>
 import L from "leaflet";
-import "leaflet.fullscreen/Control.FullScreen";
-import "leaflet.fullscreen/Control.FullScreen.css";
+import "@runette/leaflet-fullscreen/dist/Leaflet.fullscreen";
+import "@runette/leaflet-fullscreen/dist/leaflet.fullscreen.css";
 import "leaflet/dist/leaflet.css";
 import { onMounted, ref } from "vue";
 
