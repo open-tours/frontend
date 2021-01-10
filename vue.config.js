@@ -1,5 +1,7 @@
 module.exports = {
   devServer: {
+    headers: { "Access-Control-Allow-Origin": "*" },
+    disableHostCheck: true,
     proxy: {
       "^/(api|media)/": {
         target: "http://127.0.0.1:8000/",

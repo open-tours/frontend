@@ -81,7 +81,7 @@ import creatUserMutation from "../graphql/createUser.mutation.gql";
 
 export default {
   setup() {
-    const signupData = ref({});
+    const signupData = ref(null);
     const signupErrors = ref([]);
 
     const { mutate: doCreate, loading, onError } = useMutation(

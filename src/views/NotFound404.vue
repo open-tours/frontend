@@ -3,7 +3,7 @@
     <div class="container is-widescreen">
       <div class="notification is-primary">
         <div class="block">
-          <strong>OpenTours</strong>
+          <strong>Wrong Way - 404 Resource not found.</strong>
         </div>
       </div>
     </div>

@@ -94,7 +94,7 @@ import axios from "axios";
 import L from "leaflet";
 
 import { ref } from "vue";
-import { useRoute } from "vue-router";
+import { useRoute, useRouter } from "vue-router";
 import Map from "../components/Map";
 import trackQuery from "../graphql/track.query.gql";
 
@@ -115,8 +115,13 @@ export default {
       }
     });
     const route = useRoute();
+    const router = useRouter();
 
-    const { result, onResult: onTrackQueryResult } = useQuery(trackQuery, {
+    const {
+      result,
+      onResult: onTrackQueryResult,
+      onError: onTrackQueryError
+    } = useQuery(trackQuery, {
       id: route.params.id
     });
     const track = useResult(result, {}, d => d.track);
@@ -150,6 +155,9 @@ export default {
           });
         L.marker([image.latitude, image.longitude]).addTo(mapRef.value.map);
       }
+    });
+    onTrackQueryError(() => {
+      router.push({ name: "404" });
     });
 
     return {

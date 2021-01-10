@@ -32,6 +32,8 @@ $text-strong: $grey-dark;
 $modal-z: 2000;
 $modal-content-width: 70%;
 
+$card-overflow: none;
+
 // import only what you need from bulma
 @import "~bulma/sass/utilities/_all.sass";
 @import "~bulma/sass/base/_all.sass";
@@ -48,6 +50,8 @@ $modal-content-width: 70%;
 @import "~bulma/sass/elements/notification.sass";
 @import "~bulma/sass/components/navbar.sass";
 @import "~bulma/sass/components/modal.sass";
+@import "~bulma/sass/components/card";
+@import "~bulma/sass/components/media";
 @import "~bulma/sass/layout/hero.sass";
 @import "~bulma/sass/layout/section.sass";
 @import "~bulma/sass/helpers/_all.sass";

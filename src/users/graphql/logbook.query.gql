@@ -1,0 +1,15 @@
+query($prefix: ID!) {
+    logbook(prefix: $prefix) {
+        prefix
+        title
+        tracks{
+            name
+            owner {
+                name
+            }
+            photos {
+                previewUrl
+            }
+        }
+    }
+}

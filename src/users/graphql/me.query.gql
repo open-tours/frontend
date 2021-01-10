@@ -5,5 +5,8 @@ query {
         lastLogin
         email
         dateJoined
+        logbookPrefix
+        logbookTitle
+        logbookHeaderImage
     }
 }
