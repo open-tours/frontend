@@ -9,32 +9,17 @@
           <td>{{ profileData.email }}</td>
           <td></td>
         </tr>
-        <tr>
-          <td><strong>Name</strong></td>
-          <td>
-            {{ profileData.name }}
-          </td>
-          <td>
-            <button class="is-small">
-              <span class="icon is-small">
-                <font-awesome-icon icon="pen" />
-              </span>
-            </button>
-          </td>
-        </tr>
-        <tr>
-          <td><strong>Logbook Name</strong></td>
-          <td>
-            {{ profileData.logbookTitle || "not set" }}
-          </td>
-          <td>
-            <button class="is-small">
-              <span class="icon is-small">
-                <font-awesome-icon icon="pen" />
-              </span>
-            </button>
-          </td>
-        </tr>
+        <ProfileAttributeEdit
+          name="Name"
+          attributeName="name"
+          :attributeValue="profileData.name || 'not set'"
+        />
+        <ProfileAttributeEdit
+          name="Logbook title"
+          attributeName="logbookTitle"
+          :attributeValue="profileData.logbookTitle || 'not set'"
+        />
+
         <tr>
           <td><strong>Logbook URL</strong></td>
           <td>
@@ -64,6 +49,7 @@ import { formatDateTime } from "@/utils/filters";
 import { useQuery, useResult } from "@vue/apollo-composable";
 import { ref } from "vue";
 import meQuery from "../graphql/me.query.gql";
+import ProfileAttributeEdit from "../components/ProfileAttributeEdit";
 
 export default {
   setup() {
@@ -72,6 +58,9 @@ export default {
 
     const profileData = useResult(result, {}, d => d.me);
     return { env, profileData };
+  },
+  components: {
+    ProfileAttributeEdit
   },
   computed: {
     lastLogin() {

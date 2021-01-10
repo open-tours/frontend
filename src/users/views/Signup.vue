@@ -77,7 +77,7 @@
 import { onLogout } from "@/utils/apollo";
 import { useMutation } from "@vue/apollo-composable";
 import { ref } from "vue";
-import creatUserMutation from "../graphql/createUser.mutation.gql";
+import creatUserMutation from "../graphql/userCreate.mutation.gql";
 
 export default {
   setup() {

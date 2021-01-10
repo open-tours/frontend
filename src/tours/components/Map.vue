@@ -10,6 +10,9 @@ import "leaflet/dist/leaflet.css";
 import { onMounted, ref } from "vue";
 
 export default {
+  props: {
+    geojsonLayers: Array
+  },
   setup() {
     const map = ref();
     const mainLayerGroup = ref();
@@ -42,9 +45,6 @@ export default {
       map,
       mainLayerGroup
     };
-  },
-  props: {
-    geojsonLayers: Array
   },
   watch: {
     geojsonLayers: {
