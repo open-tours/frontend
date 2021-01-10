@@ -24,7 +24,7 @@ export default {
       });
 
       map.value = L.map("map", {
-        renderer: L.canvas({ padding: 2.0 }),
+        renderer: L.svg({ padding: 2.0 }),
         fullscreenControl: {
           pseudoFullscreen: false // if true, fullscreen to page width and height
         }
