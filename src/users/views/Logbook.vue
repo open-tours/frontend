@@ -1,6 +1,9 @@
 <template>
   <section v-if="logbook" class="hero is-primary is-large is-bold">
-    <div class="hero-body">
+    <div
+      class="hero-body"
+      v-bind:style="{ backgroundImage: 'url(' + logbook.headerImage + ')' }"
+    >
       <div class="container has-text-centered">
         <h1 class="title is-size-1">
           {{ logbook.title }}
@@ -23,7 +26,7 @@
                 <img
                   alt="Placeholder image"
                   class="author-image"
-                  src="https://avatars1.githubusercontent.com/u/844375?s=460&v=4"
+                  v-bind:src="track.owner.profileImage"
                 />
               </div>
               <div class="media-content has-text-centered">
@@ -95,7 +98,6 @@ export default {
 
 <style lang="scss" scoped>
 .hero-body {
-  background-image: url(http://localhost:8080/media/uploads/tours/2021/01/09/6466b54e-0207-4d6c-abef-6c594c13cf68.jpeg.1920x1440_q85_upscale.jpg);
   background-position: center;
   background-size: cover;
   background-repeat: no-repeat;

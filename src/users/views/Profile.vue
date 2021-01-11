@@ -9,15 +9,26 @@
           <td>{{ profileData.email }}</td>
           <td></td>
         </tr>
-        <ProfileAttributeEdit
+
+        <ProfileTextAttributeEdit
           name="Name"
           attributeName="name"
           :attributeValue="profileData.name || 'not set'"
         />
-        <ProfileAttributeEdit
+        <ProfileImageAttributeEdit
+          name="Profile image"
+          attributeName="profileImage"
+          :attributeValue="profileData.profileImage"
+        />
+        <ProfileTextAttributeEdit
           name="Logbook title"
           attributeName="logbookTitle"
           :attributeValue="profileData.logbookTitle || 'not set'"
+        />
+        <ProfileImageAttributeEdit
+          name="Logbook header image"
+          attributeName="logbookHeaderImage"
+          :attributeValue="profileData.logbookHeaderImage"
         />
 
         <tr>
@@ -49,7 +60,8 @@ import { formatDateTime } from "@/utils/filters";
 import { useQuery, useResult } from "@vue/apollo-composable";
 import { ref } from "vue";
 import meQuery from "../graphql/me.query.gql";
-import ProfileAttributeEdit from "../components/ProfileAttributeEdit";
+import ProfileTextAttributeEdit from "../components/ProfileTextAttributeEdit";
+import ProfileImageAttributeEdit from "../components/ProfileImageAttributeEdit";
 
 export default {
   setup() {
@@ -60,7 +72,8 @@ export default {
     return { env, profileData };
   },
   components: {
-    ProfileAttributeEdit
+    ProfileTextAttributeEdit,
+    ProfileImageAttributeEdit
   },
   computed: {
     lastLogin() {

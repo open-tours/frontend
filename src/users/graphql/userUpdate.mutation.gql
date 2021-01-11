@@ -1,5 +1,5 @@
-mutation ($name: String, $logbookTitle: String) {
-    userUpdate(name: $name, logbookTitle: $logbookTitle) {
+mutation ($name: String, $profileImage: Upload, $logbookHeaderImage: Upload, $logbookTitle: String) {
+    userUpdate(name: $name, logbookTitle: $logbookTitle, profileImage: $profileImage, logbookHeaderImage: $logbookHeaderImage) {
         id
     }
 }

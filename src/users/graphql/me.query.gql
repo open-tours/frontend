@@ -1,9 +1,10 @@
 query {
     me {
         id
-        name
-        lastLogin
         email
+        name
+        profileImage
+        lastLogin
         dateJoined
         logbookPrefix
         logbookTitle

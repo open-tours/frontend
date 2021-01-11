@@ -2,10 +2,12 @@ query($prefix: ID!) {
     logbook(prefix: $prefix) {
         prefix
         title
+        headerImage
         tracks{
             name
             owner {
                 name
+                profileImage
             }
             photos {
                 previewUrl
