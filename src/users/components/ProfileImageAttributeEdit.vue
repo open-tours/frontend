@@ -3,14 +3,12 @@
     <td>
       <strong>{{ name }}</strong>
     </td>
-    <td v-if="!doEdit"></td>
     <td>
-      <button v-if="!doEdit" class="is-small" @click="doEdit = true">
-        <span class="icon is-small">
-          <font-awesome-icon icon="pen" />
-        </span>
-      </button>
-      <div v-else class="file has-name is-fullwidth is-small">
+      <div v-if="!processing">
+        <img v-if="attributeValue" :src="attributeValue" class="image" />
+      </div>
+      <br />
+      <div v-if="doEdit" class="file has-name is-fullwidth is-small">
         <label class="file-label">
           <input
             accept="image/jpg,image/jpeg,image/png"
@@ -19,20 +17,34 @@
             @change="save"
           />
           <span class="file-cta">
-            <span v-if="!processingGPXFileUpload" class="file-icon">
-              <font-awesome-icon icon="upload" />
+            <span class="file-icon">
+              <font-awesome-icon v-if="!processing" icon="upload" />
+              <font-awesome-icon v-else icon="spinner is-small" pulse />
             </span>
-            <span v-if="!processingGPXFileUpload" class="file-label">
+            <span v-if="!processing" class="file-label">
               Choose a file…
             </span>
-            <span v-if="processingGPXFileUpload">
-              <font-awesome-icon icon="spinner is-small" pulse />
-            </span>
-          </span>
-          <span v-if="gpxFile" class="file-name">
-            {{ gpxFile.name }}
           </span>
         </label>
+      </div>
+    </td>
+    <td>
+      <button v-if="!doEdit" class="is-small" @click="doEdit = true">
+        <span class="icon is-small">
+          <font-awesome-icon icon="pen" />
+        </span>
+      </button>
+      <button v-else class="is-small is-danger" @click="doEdit = false">
+        <span class="icon is-small">
+          <font-awesome-icon icon="window-close" />
+        </span>
+      </button>
+    </td>
+  </tr>
+  <tr v-if="error">
+    <td colspan="3">
+      <div class="notification is-danger">
+        {{ error.graphQLErrors[0].message }}
       </div>
     </td>
   </tr>
@@ -52,12 +64,15 @@ export default {
   setup(props) {
     const doEdit = ref(false);
     const value = ref(props.attributeValue);
-    const { mutate: doUpdate, loading } = useMutation(userUpdateMutation);
+    const { mutate: doUpdate, processing, error } = useMutation(
+      userUpdateMutation
+    );
     // TODO: error handling
     return {
       value,
       doUpdate,
-      loading,
+      processing,
+      error,
       doEdit
     };
   },
@@ -66,9 +81,16 @@ export default {
       const files = event.target.files;
       if (files.length != 1) return;
       this.doUpdate({ [this.attributeName]: files[0] }).then(() => {
+        this.$parent.refetch();
         this.doEdit = false;
       });
     }
   }
 };
 </script>
+
+<style lang="scss" scoped>
+.image {
+  height: 100px;
+}
+</style>

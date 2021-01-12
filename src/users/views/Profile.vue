@@ -66,10 +66,9 @@ import ProfileImageAttributeEdit from "../components/ProfileImageAttributeEdit";
 export default {
   setup() {
     const env = ref(process.env);
-    const { result } = useQuery(meQuery);
-
+    const { result, refetch } = useQuery(meQuery);
     const profileData = useResult(result, {}, d => d.me);
-    return { env, profileData };
+    return { env, profileData, refetch };
   },
   components: {
     ProfileTextAttributeEdit,
