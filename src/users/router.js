@@ -2,7 +2,6 @@ import Signup from "./views/Signup";
 import Login from "./views/Login";
 import Logout from "./views/Logout";
 import Profile from "./views/Profile";
-import Logbook from "../users/views/Logbook";
 
 export default [
   {
@@ -24,10 +23,5 @@ export default [
     path: "/my/profile",
     name: "usersMyProfile",
     component: Profile
-  },
-  {
-    path: "/:logbookPrefix",
-    name: "tourslogbook",
-    component: Logbook
   }
 ];

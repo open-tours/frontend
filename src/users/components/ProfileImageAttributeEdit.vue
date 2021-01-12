@@ -19,7 +19,6 @@
           <span class="file-cta">
             <span class="file-icon">
               <font-awesome-icon v-if="!processing" icon="upload" />
-              <font-awesome-icon v-else icon="spinner is-small" pulse />
             </span>
             <span v-if="!processing" class="file-label">
               Choose a file…
@@ -34,9 +33,10 @@
           <font-awesome-icon icon="pen" />
         </span>
       </button>
-      <button v-else class="is-small is-danger" @click="doEdit = false">
+      <button v-else class="is-small" @click="doEdit = false">
         <span class="icon is-small">
-          <font-awesome-icon icon="window-close" />
+          <font-awesome-icon v-if="!processing" icon="window-close" />
+          <font-awesome-icon v-else icon="spinner" pulse />
         </span>
       </button>
     </td>
@@ -64,7 +64,7 @@ export default {
   setup(props) {
     const doEdit = ref(false);
     const value = ref(props.attributeValue);
-    const { mutate: doUpdate, processing, error } = useMutation(
+    const { mutate: doUpdate, loading: processing, error } = useMutation(
       userUpdateMutation
     );
     // TODO: error handling

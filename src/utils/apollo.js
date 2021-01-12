@@ -10,9 +10,17 @@ export function getAuthToken() {
   return localStorage.getItem(AUTH_TOKEN_KEY) || null;
 }
 
+let apiURL = process.env.VUE_APP_API_URL;
+
+// we need to overwrite dynamically to handle CORS for subdomains
+if (process.env.NODE_ENV === "development") {
+  const l = window.location;
+  apiURL = `${l.protocol}//${l.host}/api/v1/`;
+}
+
 // http and upload Link
 const uploadLink = createUploadLink({
-  uri: process.env.VUE_APP_API_URL
+  uri: apiURL
 });
 
 const authLink = new ApolloLink((operation, forward) => {

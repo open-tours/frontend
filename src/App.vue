@@ -17,7 +17,9 @@ export default {
     return { isAuthenticated };
   },
   mounted() {
-    if (getAuthToken()) this.isAuthenticated = true;
+    if (getAuthToken()) {
+      this.isAuthenticated = true;
+    }
   }
 };
 </script>

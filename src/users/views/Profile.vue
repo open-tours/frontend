@@ -30,16 +30,15 @@
           attributeName="logbookHeaderImage"
           :attributeValue="profileData.logbookHeaderImage"
         />
-
+        <ProfileTextAttributeEdit
+          name="Logbook Domain"
+          attributeName="logbookSubdomain"
+          :attributeValue="profileData.logbookSubdomain"
+        />
         <tr>
-          <td><strong>Logbook URL</strong></td>
-          <td>
-            <span v-if="logbookUrl">
-              <a :href="logbookUrl" target="_blank">{{ logbookUrl }}</a>
-            </span>
-            <span v-else>not set</span>
+          <td colspan="3">
+            <a :href="logbookUrl" target="_blank">{{ logbookUrl }}</a>
           </td>
-          <td></td>
         </tr>
         <tr>
           <td><strong>Last login</strong></td>
@@ -82,10 +81,12 @@ export default {
       return formatDateTime(this.profileData.dateJoined);
     },
     logbookUrl() {
-      if (this.profileData.logbookPrefix) {
-        return `${window.location.origin}/${this.profileData.logbookPrefix}`;
+      let subdomain = this.profileData.logbookSubdomain;
+      if (!subdomain) {
+        subdomain = "example";
       }
-      return null;
+      const l = window.location;
+      return `${l.protocol}//${subdomain}.${l.host}/`;
     }
   }
 };

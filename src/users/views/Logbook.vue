@@ -74,19 +74,23 @@
 
 <script>
 import { useQuery, useResult } from "@vue/apollo-composable";
-import { useRoute, useRouter } from "vue-router";
+import { useRouter } from "vue-router";
 import logbookQuery from "../graphql/logbook.query.gql";
 
 export default {
   setup() {
-    const route = useRoute();
     const router = useRouter();
 
+    // cut logbook name from host bernhard.opentours.net => bernhard
+    const host = window.location.host;
+    const hostParts = host.split(".");
+    if (hostParts.length != 3) {
+      router.push({ name: "home" });
+    }
     const { result, loading, error, onError } = useQuery(logbookQuery, {
-      prefix: route.params.logbookPrefix
+      subdomain: hostParts[0]
     });
     const logbook = useResult(result, null, data => data.logbook);
-
     onError(() => {
       router.push({ name: "404" });
     });

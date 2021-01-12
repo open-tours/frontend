@@ -1,12 +1,13 @@
 import { createRouter, createWebHistory } from "vue-router";
-import Home from "./views/Home";
-import NotFound404 from "./views/NotFound404";
-import users_routes from "./users/router";
-import tours_routes from "./tours/router";
+import Home from "@/views/Home";
+import Logbook from "@/users/views/Logbook";
+import NotFound404 from "@/views/NotFound404";
+import users_routes from "@/users/router";
+import tours_routes from "@/tours/router";
 
 let routes = [
   {
-    path: "/",
+    path: "/home",
     name: "home",
     component: Home
   },
@@ -19,10 +20,11 @@ let routes = [
     component: () =>
       import(/* webpackChunkName: "about" */ "./users/views/Login.vue")
   },
+  { path: "/:pathMatch(.*)", name: "logbook", component: Logbook },
   { path: "/404", name: "404", component: NotFound404 }
 ];
 
-// add users routes
+// add routes
 routes = [...routes, ...users_routes, ...tours_routes];
 
 const router = createRouter({

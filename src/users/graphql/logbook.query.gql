@@ -1,6 +1,6 @@
-query($prefix: ID!) {
-    logbook(prefix: $prefix) {
-        prefix
+query($subdomain: ID!) {
+    logbook(subdomain: $subdomain) {
+        subdomain
         title
         headerImage
         tracks{
